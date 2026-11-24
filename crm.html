@@ -100,6 +100,27 @@
           <textarea id="dNotasInt" placeholder="Pago, entrega, punto de entrega, detalles del empaque…"></textarea>
         </div>
 
+        <!-- Cita y entrega -->
+        <div class="card">
+          <h3>La cita y la entrega</h3>
+          <div class="row2">
+            <div><label class="f" for="dFecha2">Para cuándo</label><input type="date" id="dFecha2"></div>
+            <div><label class="f chk"><input type="checkbox" id="dPronto"> Lo antes posible</label></div>
+            <div><label class="f" for="dEntrega">Entrega</label>
+              <select id="dEntrega"><option value="">Sin dato</option><option value="punto">Punto de entrega en Sonsonate</option><option value="domicilio">A domicilio en Sonsonate</option><option value="envio">Envío al resto del país (Boxful)</option></select></div>
+            <div><label class="f" for="dPunto">Punto</label>
+              <select id="dPunto"><option value="">—</option><option>Metrocentro Sonsonate</option><option>CC El Encuentro</option></select></div>
+          </div>
+          <label class="f" for="dDireccion">Dirección o municipio</label><input type="text" id="dDireccion" maxlength="300">
+          <div class="row2">
+            <div><label class="f" for="dPago">Pago</label>
+              <select id="dPago"><option value="">Sin dato</option><option value="transferencia">Transferencia (total al reservar)</option><option value="contraentrega">Contra entrega (50% de anticipo)</option></select></div>
+            <div><label class="f" for="dTelefono">WhatsApp de la clienta</label>
+              <div class="tel-row"><input type="tel" id="dTelefono" maxlength="20"><a class="btn2" id="dWa" href="#" target="_blank" rel="noopener" hidden>Escribir</a></div></div>
+          </div>
+          <label class="f" for="dDedicatoria">Notita escrita a mano</label><textarea id="dDedicatoria" maxlength="300" placeholder="Lo que la clienta quiere que diga la notita"></textarea>
+        </div>
+
         <!-- Respuestas -->
         <details class="card" id="respuestas" open>
           <summary><h3>Respuestas de la clienta</h3></summary>

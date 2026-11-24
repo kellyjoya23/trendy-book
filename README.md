@@ -49,10 +49,12 @@ Cada vez que se sube un cambio a GitHub, Vercel publica la nueva versión sola.
 
 ## Cómo funciona
 
-1. Bienvenida con los tres pasos: nos cuentas, elegimos, la cita.
-2. ¿Para quién es la cita? (para regalar / para mí). Si es para ella misma, todas las preguntas cambian a "tú".
-3. Edad o etapa, qué tanto lee, géneros que le encantan, lo que no quiere recibir, la ocasión y notas libres.
-4. Resumen de la ficha y botón **Enviar por WhatsApp**. Al tocarlo, la ficha se guarda en Supabase y se abre WhatsApp con el mensaje listo.
+Bienvenida con los tres pasos y luego el flujo en tres fases (la barra de arriba muestra en cuál va la clienta):
+
+1. **01 · Completa el formulario** (7 preguntas): para quién es (regalar / para mí; si es para ella misma, todo cambia a "tú"), edad o etapa, qué tanto lee, géneros que le encantan, lo que no quiere recibir, la ocasión y notas libres.
+2. **02 · Preparamos tu cita:** para cuándo la necesita (lo antes posible o una fecha) y, si es regalo, el nombre de quien la recibe y la notita escrita a mano.
+3. **03 · Coordinamos la entrega:** punto de entrega en Sonsonate (Metrocentro o CC El Encuentro), a domicilio en Sonsonate o envío al resto del país con Boxful; forma de pago (transferencia o contra entrega con 50% de anticipo); nombre y WhatsApp.
+4. Resumen por fases y botón **Enviar por WhatsApp**. Al tocarlo, la ficha se guarda en Supabase y se abre WhatsApp con el mensaje listo. El precio, el costo de envío y los datos de pago se confirman por WhatsApp.
 
 Si la clienta vuelve y edita la ficha después de enviarla, se guarda como ficha nueva con otro código.
 

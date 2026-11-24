@@ -121,3 +121,11 @@ input:focus,textarea:focus,select:focus{border-color:var(--terra);background:#ff
 }
 @media(max-width:520px){.row2{grid-template-columns:minmax(0,1fr)}.bar-actions{margin-left:0;width:100%}.estado-sel{min-width:0;width:100%}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+input[type=date],input[type=tel]{width:100%;font:300 16px/1.5 Montserrat,sans-serif;color:var(--ink);background:var(--cream);border:1.5px solid transparent;border-radius:11px;padding:11px 14px;outline:none}
+input[type=date]:focus,input[type=tel]:focus{border-color:var(--terra);background:#fff}
+label.chk{display:flex;align-items:center;gap:10px;margin-top:44px;font-weight:400;cursor:pointer}
+label.chk input{width:20px;height:20px;accent-color:var(--ink)}
+.tel-row{display:flex;gap:8px}
+.tel-row .btn2{flex:none;text-decoration:none;display:inline-flex;align-items:center}
+.fecha-pill{font-weight:500;color:var(--earth)}
+@media(max-width:520px){label.chk{margin-top:12px}}

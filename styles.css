@@ -75,3 +75,22 @@ button:focus-visible,input:focus-visible,textarea:focus-visible,a:focus-visible{
 .pasos .ico{flex:none;width:52px;height:52px;border-radius:14px;background:var(--cream);display:grid;place-items:center}
 .pasos b{display:block;font-weight:600;font-size:16.5px;line-height:1.3;margin:3px 0 2px}
 .pasos span{color:var(--ink2);font-size:14.5px;line-height:1.45}
+.fases{list-style:none;margin:0 0 12px;padding:0;display:flex;gap:6px}
+.fases li{flex:1;font-size:12.5px;color:var(--ink2);padding:8px 10px;border-radius:10px;background:var(--cream);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fases li b{font-weight:600;margin-right:4px}
+.fases li.on{background:var(--peach);color:var(--ink)}
+.fases li.ok{color:var(--ink)}
+.fases li.ok{background:#F1E6DD}
+.prog{display:block;margin-bottom:24px}
+.progrow{display:flex;align-items:center;gap:12px;font-size:13px;color:var(--ink2)}
+.sub-h{font-family:"Cormorant Garamond",serif;font-weight:500;font-size:24px;margin:26px 0 4px}
+input[type=date],input[type=tel]{width:100%;font:300 16px/1.5 Montserrat,sans-serif;color:var(--ink);background:var(--cream);border:1.5px solid transparent;border-radius:12px;padding:13px 15px;outline:none}
+input[type=date]:focus,input[type=tel]:focus{border-color:var(--terra);background:#fff}
+.sumg{background:var(--cream);border-radius:14px;padding:16px 20px;margin:0 0 10px}
+.sumg h3{font-family:Montserrat,sans-serif;font-size:13px;font-weight:600;margin:0 0 8px;color:var(--ink)}
+.sumg dl{margin:0;display:grid;gap:6px;font-size:14.5px}
+.sumg dl div{display:grid;grid-template-columns:8.5em minmax(0,1fr);gap:10px}
+.sumg dt{color:var(--ink2)}
+.sumg dd{margin:0;font-weight:400;overflow-wrap:anywhere}
+@media(max-width:480px){.sumg dl div{grid-template-columns:minmax(0,1fr);gap:0}.fases{gap:4px}.fases li{font-size:11.5px;padding:7px 6px;text-align:center}}
+#notaMi{margin-top:18px}

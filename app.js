@@ -14,9 +14,11 @@ const T={ /* [regalo, para mí] */
  gen:['¿Qué géneros le encantan?','¿Qué géneros te encantan?'],
  evitar:['¿Hay algo que definitivamente no quieras que le llegue?','¿Hay algo que definitivamente no quieras recibir?'],
  notasHelp:['Si está pasando por un momento especial, algo que le esté pasando, o cualquier detalle suelto que ayude.','Si estás pasando por un momento especial, algo que te esté pasando, o cualquier detalle suelto que ayude.'],
- fin:['Con esto le buscamos algo que sienta que fue elegido para ella, no al azar. Envíanos la ficha por WhatsApp y seguimos por ahí.','Con esto te buscamos algo que sientas que fue elegido para ti, no al azar. Envíanos la ficha por WhatsApp y seguimos por ahí.']
+ fin:['Con esto le buscamos algo que sienta que fue elegido para ella, no al azar. Envíanos la ficha por WhatsApp y te confirmamos el precio, el envío y el pago.','Con esto te buscamos algo que sientas que fue elegido para ti, no al azar. Envíanos la ficha por WhatsApp y te confirmamos el precio, el envío y el pago.']
 };
-const S={para:'',lee:'',ocasion:'',gustos:new Set(),evitar:new Set()};
+const S={para:'',lee:'',ocasion:'',cuando:'',entrega:'',punto:'',pago:'',gustos:new Set(),evitar:new Set()};
+const ENTREGA={punto:'Punto de entrega en Sonsonate',domicilio:'A domicilio en Sonsonate',envio:'Envío al resto del país (Boxful)'};
+const PAGO={transferencia:'Transferencia (total al reservar)',contraentrega:'Contra entrega (50% de anticipo)'};
 const nuevoCodigo=()=>{const a='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',r=new Uint8Array(5);crypto.getRandomValues(r);return 'TB-'+[...r].map(n=>a[n%a.length]).join('')};
 let codigo=nuevoCodigo(), guardadoFirma='';
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
@@ -26,11 +28,14 @@ chips(GUSTOS,$('#gustos'));chips(EVITAR,$('#evitar'));
 const drawOcas=()=>{const k=S.para||'regalo';chips(OCAS[k].map(o=>[o,o]),$('#ocasion'));$$('#ocasion .chip').forEach(c=>c.setAttribute('aria-pressed',c.dataset.v===S.ocasion))};
 drawOcas();
 
-let cur=0;const LAST=8;
+let cur=0;const LAST=11;
+/* paso -> [fase, texto de avance] */
+const FASE=n=>n<=7?[1,`Pregunta ${n} de 7`]:n===8?[2,'Preparamos tu cita']:[3,`Coordinamos la entrega · ${n-8} de 2`];
 const show=n=>{
   cur=n;$$('.step').forEach(s=>s.classList.toggle('on',+s.dataset.step===n));
   $('#prog').hidden=n===0||n===LAST;
-  $('#progTxt').textContent=`Paso ${n} de 7`;$('#progBar').style.width=(n/7*100)+'%';
+  if(n>0&&n<LAST){const [f,t]=FASE(n);$('#progTxt').textContent=t;$('#progBar').style.width=(n/10*100)+'%';
+    $$('.fases li').forEach(li=>{const k=+li.dataset.f;li.classList.toggle('on',k===f);li.classList.toggle('ok',k<f)});}
   $('#card').classList.toggle('unsealed',n!==LAST);
   if(n===LAST)render();
   const f=document.querySelector(`.step[data-step="${n}"] input,.step[data-step="${n}"] textarea`);
@@ -40,7 +45,7 @@ const show=n=>{
 const applyT=()=>{const i=S.para==='mi'?1:0;
   $$('[data-t]').forEach(el=>{const k=el.dataset.t;if(T[k])el.textContent=T[k][i]});
   ['avido','ocasional','casinolee','retomando'].forEach((k,j)=>{const b=document.querySelector(`[data-t="lee${j+1}"]`);if(b)b.textContent=LEE[k][i]});
-  $('#wrapPara').hidden=S.para==='mi';drawOcas();
+  $('#wrapNotita').hidden=S.para==='mi';$('#notaMi').hidden=S.para!=='mi';drawOcas();
 };
 
 document.addEventListener('click',e=>{
@@ -54,6 +59,8 @@ document.addEventListener('click',e=>{
     [...b.parentElement.children].forEach(c=>c.setAttribute('aria-pressed',c.dataset.v===S[single]));
     if(single==='para'){$('#nextPara').disabled=false;applyT();}
     if(single==='ocasion'&&S.ocasion)$('#ocasionOtro').value='';
+    if(single==='cuando')$('#wrapFecha').hidden=S.cuando!=='fecha';
+    if(single==='entrega'){$('#wrapPunto').hidden=S.entrega!=='punto';$('#wrapDir').hidden=!['domicilio','envio'].includes(S.entrega);}
   }else if(multi){
     const set=S[multi];
     if(set.has(v))set.delete(v);else{
@@ -65,32 +72,49 @@ document.addEventListener('click',e=>{
   }
 });
 $('#ocasionOtro').addEventListener('input',()=>{if($('#ocasionOtro').value){S.ocasion='';$$('#ocasion .chip').forEach(c=>c.setAttribute('aria-pressed','false'))}});
-document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.matches('input[type=text]')){e.preventDefault();show(Math.min(cur+1,LAST))}});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.matches('input[type=text],input[type=tel]')){e.preventDefault();show(Math.min(cur+1,LAST))}});
 
 const lbl=(arr,set)=>arr.filter(([v])=>set.has(v)).map(([,l])=>l).join(', ');
+const fechaTxt=()=>{const f=$('#fecha').value;if(S.cuando==='pronto')return 'Lo antes posible';if(!f)return '';const d=new Date(f+'T12:00:00');return d.toLocaleDateString('es-SV',{weekday:'long',day:'numeric',month:'long'})};
 const ficha=()=>{
   const mi=S.para==='mi', v=id=>$('#'+id).value.trim();
   const ev=[lbl(EVITAR,S.evitar),v('evitarOtro')].filter(Boolean).join(', ');
+  const limpia=rows=>rows.filter(([,x])=>x);
   return [
-    ['Para',mi?'Para mí':'Regalo'],
-    ['Se llama',mi?'':v('nombrePara')],
-    ['Edad / etapa',v('edad')],
-    ['Lee',S.lee?LEE[S.lee][mi?1:0]:''],
-    [mi?'Me encanta':'Le encanta',lbl(GUSTOS,S.gustos)],
-    ['Evitar',ev],
-    ['Ocasión',S.ocasion||v('ocasionOtro')],
-    ['Notas',v('notas')],
-    ['De',v('nombre')],
-    ['Código',codigo]
-  ].filter(([,x])=>x);
+    ['01 · Gustos',limpia([
+      ['Para',mi?'Para mí':'Regalo'],
+      ['Edad / etapa',v('edad')],
+      ['Lee',S.lee?LEE[S.lee][mi?1:0]:''],
+      [mi?'Me encanta':'Le encanta',lbl(GUSTOS,S.gustos)],
+      ['Evitar',ev],
+      ['Ocasión',S.ocasion||v('ocasionOtro')],
+      ['Notas',v('notas')]])],
+    ['02 · La cita',limpia([
+      ['Para cuándo',fechaTxt()],
+      ['Se llama',mi?'':v('nombrePara')],
+      ['Notita',mi?'':v('dedicatoria')]])],
+    ['03 · Entrega',limpia([
+      ['Entrega',ENTREGA[S.entrega]||''],
+      ['Punto',S.entrega==='punto'?S.punto:''],
+      ['Dirección',['domicilio','envio'].includes(S.entrega)?v('direccion'):''],
+      ['Pago',PAGO[S.pago]||''],
+      ['De',v('nombre')],
+      ['WhatsApp',v('telefono')],
+      ['Código',codigo]])]
+  ].filter(([,r])=>r.length);
 };
 const mensaje=()=>{const mi=S.para==='mi';
-  return `Hola Trendy Book 🤍 Quiero ${mi?'darme':'regalar'} una cita a ciegas con un libro.\n\nFicha de la cita\n`+ficha().map(([k,x])=>`${k}: ${x}`).join('\n')+`\n\n✨`};
+  return `Hola Trendy Book 🩷 Quiero ${mi?'darme':'regalar'} una cita a ciegas con un libro.\n\n`+ficha().map(([t,r])=>`${t}\n`+r.map(([k,x])=>`${k}: ${x}`).join('\n')).join('\n\n')+`\n\n✨`};
 /* Guarda la ficha en Supabase. Si la clienta edita después de enviar, se guarda como ficha nueva con otro código. */
 const registro=()=>{const v=id=>$('#'+id).value.trim()||null;return{
   codigo, para:S.para||'regalo', nombre:v('nombre'), nombre_para:S.para==='mi'?null:v('nombrePara'),
   edad:v('edad'), lee:S.lee||null, gustos:[...S.gustos], evitar:[...S.evitar].filter(x=>x!=='nada'),
-  evitar_otro:v('evitarOtro'), ocasion:S.ocasion||v('ocasionOtro'), notas:v('notas')}};
+  evitar_otro:v('evitarOtro'), ocasion:S.ocasion||v('ocasionOtro'), notas:v('notas'),
+  fecha_deseada:S.cuando==='fecha'?v('fecha'):null, lo_antes_posible:S.cuando==='pronto',
+  dedicatoria:S.para==='mi'?null:v('dedicatoria'),
+  entrega:S.entrega||null, punto:S.entrega==='punto'?(S.punto||null):null,
+  direccion:['domicilio','envio'].includes(S.entrega)?v('direccion'):null,
+  pago:S.pago||null, telefono:v('telefono')}};
 const guardar=()=>{
   if(!CFG.supabaseUrl||!CFG.supabaseAnonKey)return;
   const firma=JSON.stringify({...registro(),codigo:''});
@@ -103,10 +127,11 @@ const guardar=()=>{
 };
 $('#wa').addEventListener('click',guardar);
 const render=()=>{
-  $('#sum').innerHTML=ficha().map(([k,x])=>`<div><dt>${esc(k)}</dt><dd>${esc(x)}</dd></div>`).join('')||'<div><dd>Sin datos todavía</dd></div>';
+  $('#sum').innerHTML=ficha().map(([t,r])=>`<section class="sumg"><h3>${esc(t)}</h3><dl>${r.map(([k,x])=>`<div><dt>${esc(k)}</dt><dd>${esc(x)}</dd></div>`).join('')}</dl></section>`).join('');
   $('#wa').href='https://wa.me/'+(WA_NUMERO||'')+'?text='+encodeURIComponent(mensaje());
   $('#copied').hidden=true;
 };
 $('#copy').addEventListener('click',async()=>{guardar();try{await navigator.clipboard.writeText(mensaje());$('#copied').hidden=false}catch(_){$('#copied').textContent='No se pudo copiar; selecciona el texto de la ficha.';$('#copied').hidden=false}});
+{const d=new Date();$('#fecha').min=new Date(d-d.getTimezoneOffset()*6e4).toISOString().slice(0,10)}
 if(WA_NUMERO)$('#waTxt').textContent='+'+WA_NUMERO;
 }

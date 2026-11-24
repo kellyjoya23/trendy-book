@@ -24,12 +24,35 @@ create table if not exists public.fichas (
   ocasion         text check (char_length(ocasion) <= 120),
   notas           text check (char_length(notas) <= 2000),
 
+  -- 02 · La cita
+  fecha_deseada    date,
+  lo_antes_posible boolean not null default false,
+  dedicatoria      text check (char_length(dedicatoria) <= 300),   -- notita escrita a mano
+
+  -- 03 · Entrega y pago
+  entrega         text check (entrega in ('punto', 'domicilio', 'envio')),
+  punto           text check (char_length(punto) <= 80),             -- Metrocentro Sonsonate / CC El Encuentro
+  direccion       text check (char_length(direccion) <= 300),
+  pago            text check (pago in ('transferencia', 'contraentrega')),
+  telefono        text check (char_length(telefono) <= 20),
+
   -- Lo que llena el equipo (CRM interno)
   estado          text not null default 'nueva'
                   check (estado in ('nueva', 'en_curaduria', 'confirmada', 'empacada', 'entregada', 'cancelada')),
   libro           text,
   notas_internas  text
 );
+
+-- Para bases creadas antes de agregar la cita y la entrega
+alter table public.fichas
+  add column if not exists fecha_deseada    date,
+  add column if not exists lo_antes_posible boolean not null default false,
+  add column if not exists dedicatoria      text check (char_length(dedicatoria) <= 300),
+  add column if not exists entrega          text check (entrega in ('punto', 'domicilio', 'envio')),
+  add column if not exists punto            text check (char_length(punto) <= 80),
+  add column if not exists direccion        text check (char_length(direccion) <= 300),
+  add column if not exists pago             text check (pago in ('transferencia', 'contraentrega')),
+  add column if not exists telefono         text check (char_length(telefono) <= 20);
 
 create index if not exists fichas_creada_idx on public.fichas (creada desc);
 create index if not exists fichas_estado_idx on public.fichas (estado);

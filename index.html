@@ -62,7 +62,14 @@
   </div>
 
   <section class="side">
-    <div class="prog" id="prog" hidden><span id="progTxt">Paso 1 de 7</span><div class="bar"><i id="progBar"></i></div></div>
+    <div class="prog" id="prog" hidden>
+      <ol class="fases" aria-label="Pasos">
+        <li data-f="1"><b>01</b> Formulario</li>
+        <li data-f="2"><b>02</b> Tu cita</li>
+        <li data-f="3"><b>03</b> Entrega</li>
+      </ol>
+      <div class="progrow"><span id="progTxt">Pregunta 1 de 7</span><div class="bar"><i id="progBar"></i></div></div>
+    </div>
 
     <!-- 0 · Bienvenida -->
     <div class="step on intro" data-step="0">
@@ -145,19 +152,70 @@
       <p class="help" data-t="notasHelp">Si está pasando por un momento especial, algo que le esté pasando, o cualquier detalle suelto que ayude.</p>
       <label class="f" for="notas">Cuéntanos</label>
       <textarea id="notas" placeholder="Ej: está en modo reinvención, le encantó Orgullo y prejuicio, ama los gatos…"></textarea>
+      <div class="nav"><button class="ghost" data-back>Atrás</button><button class="btn" data-next>Siguiente</button></div>
+    </div>
+
+    <!-- 8 · Fase 2: Preparamos tu cita -->
+    <div class="step" data-step="8">
+      <h2>¿Para cuándo la necesitas?</h2>
+      <p class="help">Así organizamos la curaduría y el empaque a tiempo.</p>
+      <div class="chips" data-single="cuando">
+        <button class="chip" data-v="pronto" aria-pressed="false">Lo antes posible</button>
+        <button class="chip" data-v="fecha" aria-pressed="false">Tengo una fecha</button>
+      </div>
+      <div id="wrapFecha" hidden><label class="f" for="fecha">Fecha</label><input type="date" id="fecha"></div>
+      <div id="wrapNotita">
+        <h3 class="sub-h">La notita</h3>
+        <p class="help">Cada cita va envuelta a mano y sellada con cera. Si quieres, la acompañamos con una notita escrita a mano.</p>
+        <label class="f" for="nombrePara">¿Cómo se llama quien la recibe?</label>
+        <input type="text" id="nombrePara" maxlength="80" placeholder="Opcional">
+        <label class="f" for="dedicatoria">¿Qué quieres que diga la notita?</label>
+        <textarea id="dedicatoria" maxlength="300" placeholder="Ej: Para mi bestie, que nunca deja de sorprenderme. Feliz cumple. Con amor, Kelly"></textarea>
+      </div>
+      <p class="help" id="notaMi" hidden>Tu cita llega envuelta a mano y sellada con cera, como un regalo de ti para ti.</p>
+      <div class="nav"><button class="ghost" data-back>Atrás</button><button class="btn" data-next>Siguiente</button></div>
+    </div>
+
+    <!-- 9 · Fase 3: Entrega -->
+    <div class="step" data-step="9">
+      <h2>¿Cómo te la hacemos llegar?</h2>
+      <p class="help">El costo del envío te lo confirmamos por WhatsApp.</p>
+      <div class="opts one" data-single="entrega">
+        <button class="opt" data-v="punto"><b>Punto de entrega en Sonsonate</b><span>Metrocentro o CC El Encuentro.</span></button>
+        <button class="opt" data-v="domicilio"><b>A domicilio en Sonsonate</b><span>Con mensajería local, hasta tu puerta.</span></button>
+        <button class="opt" data-v="envio"><b>Envío al resto del país</b><span>Con Boxful.</span></button>
+      </div>
+      <div id="wrapPunto" hidden><label class="f">¿En cuál punto?</label>
+        <div class="chips" data-single="punto">
+          <button class="chip" data-v="Metrocentro Sonsonate" aria-pressed="false">Metrocentro</button>
+          <button class="chip" data-v="CC El Encuentro" aria-pressed="false">CC El Encuentro</button>
+        </div></div>
+      <div id="wrapDir" hidden><label class="f" for="direccion">Dirección o municipio</label>
+        <input type="text" id="direccion" maxlength="300" placeholder="Ej: Col. Las Palmeras, Sonsonate"></div>
+      <div class="nav"><button class="ghost" data-back>Atrás</button><button class="btn" data-next>Siguiente</button></div>
+    </div>
+
+    <!-- 10 · Fase 3: Pago y contacto -->
+    <div class="step" data-step="10">
+      <h2>¿Cómo prefieres pagar?</h2>
+      <p class="help">El precio y los datos de pago te los compartimos por WhatsApp.</p>
+      <div class="opts one" data-single="pago">
+        <button class="opt" data-v="transferencia"><b>Transferencia</b><span>Pagas el total al reservar.</span></button>
+        <button class="opt" data-v="contraentrega"><b>Contra entrega</b><span>Dejas un anticipo del 50% al reservar y el resto al recibir.</span></button>
+      </div>
       <div class="row2">
-        <div><label class="f" for="nombre">Tu nombre</label><input type="text" id="nombre" autocomplete="given-name" placeholder="Opcional"></div>
-        <div id="wrapPara"><label class="f" for="nombrePara">¿Cómo se llama?</label><input type="text" id="nombrePara" placeholder="Opcional"></div>
+        <div><label class="f" for="nombre">Tu nombre</label><input type="text" id="nombre" autocomplete="name" maxlength="80"></div>
+        <div><label class="f" for="telefono">Tu WhatsApp</label><input type="tel" id="telefono" autocomplete="tel" inputmode="tel" maxlength="20" placeholder="Ej: 7000 0000"></div>
       </div>
       <div class="nav"><button class="ghost" data-back>Atrás</button><button class="btn" data-next id="toEnd">Ver mi ficha</button></div>
     </div>
 
-    <!-- 8 · Final -->
-    <div class="step" data-step="8">
+    <!-- 11 · Final -->
+    <div class="step" data-step="11">
       <div class="desc">Ficha lista</div>
       <h2 class="mt">Tu cita ya se está arreglando.</h2>
       <p class="help" data-t="fin">Con esto le buscamos algo que sienta que fue elegido para ella, no al azar. Envíanos la ficha por WhatsApp y seguimos por ahí.</p>
-      <dl class="sum" id="sum"></dl>
+      <div id="sum"></div>
       <div class="nav pt">
         <button class="ghost" data-back>Editar</button>
         <a class="btn" id="wa" href="#" target="_blank" rel="noopener">

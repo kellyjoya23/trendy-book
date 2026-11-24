@@ -83,7 +83,7 @@ const pintarLista = () => {
     && (!q || norm([f.codigo, f.nombre, f.nombre_para, f.notas, f.ocasion, f.libro, f.notas_internas].join(' ')).includes(q)));
   $('#lista').innerHTML = vis.map(f => `<li><button class="item" data-id="${esc(f.id)}" aria-current="${actual?.id === f.id}">
       <span class="who">${esc(titulo(f))}</span><span class="when">${esc(cuando(f.creada))}</span>
-      <span class="meta"><span class="pill ${esc(f.estado)}">${esc(EL[f.estado] || f.estado)}</span>${esc(f.codigo)} · ${esc([f.ocasion, f.gustos.map(g => GL[g] || g).join(', ')].filter(Boolean).join(' · ') || 'sin detalles')}</span></button></li>`).join('');
+      <span class="meta"><span class="pill ${esc(f.estado)}">${esc(EL[f.estado] || f.estado)}</span>${esc(f.codigo)} · ${esc([fechaCorta(f), f.ocasion, f.gustos.map(g => GL[g] || g).join(', ')].filter(Boolean).join(' · ') || 'sin detalles')}</span></button></li>`).join('');
   $('#listaVacia').hidden = vis.length > 0;
   const nuevas = cuenta('nueva');
   $('#resumen').textContent = `${fichas.length} ficha${fichas.length === 1 ? '' : 's'} · ${nuevas} nueva${nuevas === 1 ? '' : 's'} por atender`;
@@ -106,7 +106,11 @@ const syncChips = () => {
 const confirmarSalida = () => confirm('Hay cambios sin guardar. ¿Salir sin guardar?');
 const marcarSucio = () => { sucio = true; $('#saveMsg').textContent = 'Cambios sin guardar'; $('#saveMsg').className = 'msg'; };
 
-const CAMPOS = { dNombre:'nombre', dNombrePara:'nombre_para', dEdad:'edad', dLee:'lee', dEvitarOtro:'evitar_otro', dOcasion:'ocasion', dNotas:'notas', dEstado:'estado', dLibro:'libro', dNotasInt:'notas_internas' };
+const CAMPOS = { dNombre:'nombre', dNombrePara:'nombre_para', dEdad:'edad', dLee:'lee', dEvitarOtro:'evitar_otro', dOcasion:'ocasion', dNotas:'notas', dEstado:'estado', dLibro:'libro', dNotasInt:'notas_internas',
+  dFecha2:'fecha_deseada', dEntrega:'entrega', dPunto:'punto', dDireccion:'direccion', dPago:'pago', dTelefono:'telefono', dDedicatoria:'dedicatoria' };
+const waLink = t => { let d = String(t || '').replace(/\D/g, ''); if (d.length === 8) d = '503' + d; return d.length >= 8 ? 'https://wa.me/' + d : ''; };
+const syncWa = () => { const u = waLink($('#dTelefono').value); $('#dWa').hidden = !u; if (u) $('#dWa').href = u; };
+const fechaCorta = f => f.lo_antes_posible ? 'Lo antes posible' : f.fecha_deseada ? 'Para el ' + new Date(f.fecha_deseada + 'T12:00:00').toLocaleDateString('es-SV', { day: 'numeric', month: 'short' }) : '';
 
 const abrir = (f, enfocar = true) => {
   actual = f; sucio = false;
@@ -116,6 +120,7 @@ const abrir = (f, enfocar = true) => {
   $('#dTitulo').textContent = f.id ? titulo(f) : 'Ficha nueva';
   $('#dFecha').textContent = f.id ? `Llegó ${cuando(f.creada).toLowerCase()} · actualizada ${cuando(f.actualizada).toLowerCase()}` : 'Para pedidos que llegaron por DM o WhatsApp sin formulario.';
   for (const [id, k] of Object.entries(CAMPOS)) $('#' + id).value = f[k] ?? '';
+  $('#dPronto').checked = !!f.lo_antes_posible; syncWa();
   F.para = f.para || 'regalo'; F.gustos = new Set(f.gustos || []); F.evitar = new Set(f.evitar || []);
   syncChips(); sugerir();
   $('#saveMsg').textContent = '';
@@ -135,7 +140,7 @@ document.addEventListener('click', e => {
     if (g.dataset.multi === 'gustos') { if (v === 'sorpresa' && set.has(v)) { set.clear(); set.add(v); } else if (v !== 'sorpresa') set.delete('sorpresa'); } }
   syncChips(); marcarSucio(); sugerir();
 });
-$('#detalle').addEventListener('input', e => { if (e.target.closest('#pegado')) return; if (e.target.matches('input,textarea,select')) { marcarSucio(); if (!['dLibro','dNotasInt','dEstado'].includes(e.target.id)) sugerir(); } });
+$('#detalle').addEventListener('input', e => { if (e.target.closest('#pegado')) return; if (e.target.id === 'dTelefono') syncWa(); if (e.target.matches('input,textarea,select')) { marcarSucio(); if (!['dLibro','dNotasInt','dEstado'].includes(e.target.id)) sugerir(); } });
 $('#detalle').addEventListener('change', e => { if (e.target.id === 'dEstado') marcarSucio(); });
 
 const leerForm = () => {
@@ -143,6 +148,7 @@ const leerForm = () => {
   const r = { para: F.para, gustos: [...F.gustos], evitar: [...F.evitar] };
   for (const [id, k] of Object.entries(CAMPOS)) r[k] = v(id);
   if (r.para === 'mi') r.nombre_para = null;
+  r.lo_antes_posible = $('#dPronto').checked;
   r.estado = r.estado || 'nueva';
   return r;
 };
@@ -174,6 +180,13 @@ $('#btnImp').addEventListener('click', () => {
     $('#dEvitarOtro').value = d['evitar'].split(',').map(s => s.trim()).filter(s => s && !conocidas.includes(norm(s))).join(', '); }
   if (d['ocasion']) $('#dOcasion').value = d['ocasion'];
   if (d['notas']) $('#dNotas').value = d['notas'];
+  if (d['notita']) $('#dDedicatoria').value = d['notita'];
+  if (d['whatsapp']) { $('#dTelefono').value = d['whatsapp']; syncWa(); }
+  if (d['direccion']) $('#dDireccion').value = d['direccion'];
+  if (d['punto']) $('#dPunto').value = d['punto'];
+  if (d['entrega']) { const n = norm(d['entrega']); $('#dEntrega').value = n.includes('punto') ? 'punto' : n.includes('domicilio') ? 'domicilio' : n.includes('envio') ? 'envio' : ''; }
+  if (d['pago']) { const n = norm(d['pago']); $('#dPago').value = n.includes('transferencia') ? 'transferencia' : n.includes('contra') ? 'contraentrega' : ''; }
+  if (d['para cuando']) { if (norm(d['para cuando']).includes('antes')) $('#dPronto').checked = true; else $('#dNotas').value = [$('#dNotas').value, 'Para cuándo: ' + d['para cuando']].filter(Boolean).join('\n'); }
   if (d['codigo'] && /^TB-[A-Z0-9]{5}$/.test(d['codigo'])) { actual.codigo = d['codigo']; $('#dCodigo').textContent = d['codigo']; }
   syncChips(); marcarSucio(); sugerir();
 });
