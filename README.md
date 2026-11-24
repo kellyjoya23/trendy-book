@@ -1,5 +1,8 @@
 # Blind date with a book · Trendy Book
 
+- **Formulario para clientas:** https://trendy-book.vercel.app
+- **CRM interno:** https://trendy-book.vercel.app/crm (solo con cuenta del equipo)
+
 Formulario web para que las clientas cuenten cómo es la persona que va a recibir su cita a ciegas con un libro (o cómo son ellas, si es un autorregalo). Cada ficha se guarda en **Supabase** y además se envía por **WhatsApp** con un código (`TB-XXXXX`) para ubicarla después en el CRM interno.
 
 ## Archivos
@@ -13,6 +16,9 @@ Formulario web para que las clientas cuenten cómo es la persona que va a recibi
 | `logo.png`, `icons/` | Logo oficial e íconos (isotipo sobre peach) |
 | `vercel.json` | Encabezados de seguridad (política de contenido, bloqueo de iframes) |
 | `supabase/schema.sql` | Tabla `fichas` y reglas de seguridad de la base de datos |
+| `crm.html`, `crm.css`, `crm.js` | CRM interno: inicio de sesión, fichas por estado, curador y notas del equipo |
+| `catalogo.js` | Catálogo de libros que usa el curador (aquí se agregan libros) |
+| `vendor/` | supabase-js 2.118.0 incluido en el sitio, para el inicio de sesión del CRM |
 
 No hay que instalar nada ni compilar.
 
@@ -49,3 +55,31 @@ Cada vez que se sube un cambio a GitHub, Vercel publica la nueva versión sola.
 4. Resumen de la ficha y botón **Enviar por WhatsApp**. Al tocarlo, la ficha se guarda en Supabase y se abre WhatsApp con el mensaje listo.
 
 Si la clienta vuelve y edita la ficha después de enviarla, se guarda como ficha nueva con otro código.
+
+## CRM interno (`/crm`)
+
+### Cuenta del equipo (una sola vez)
+
+1. En Supabase → **Authentication → Users → Add user → Create new user**: correo `info@trendybooksv.com`, una contraseña y **Auto Confirm User** marcado.
+2. Marca la cuenta como equipo en **SQL Editor**:
+
+   ```sql
+   update auth.users
+   set raw_app_meta_data = raw_app_meta_data || '{"rol":"equipo"}'
+   where email = 'info@trendybooksv.com';
+   ```
+
+3. En **Authentication → Sign In / Providers**, desactiva **Allow new users to sign up**.
+4. En **Authentication → URL Configuration**: *Site URL* `https://trendy-book.vercel.app/crm` y en *Redirect URLs* agrega `https://trendy-book.vercel.app/**` (para "Olvidé mi contraseña").
+
+### Cómo se usa
+
+- **Lista de fichas** con pestañas por estado: Activas, Nueva, En curaduría, Confirmada, Empacada, Entregada, Cancelada y Todas. El buscador encuentra por código (`TB-XXXXX`), nombre o notas: así se ubica la ficha de cada WhatsApp.
+- **Detalle de la ficha:** la sugerencia del curador con su teaser (para copiar y mandar a la clienta), el título real, por qué encaja y tres alternativas. **Usar este libro** lo pone como libro elegido y pasa la ficha a *En curaduría*.
+- **Libro y notas del equipo:** libro elegido, notas internas (pago, entrega, empaque) y estado. Nada de esto lo ve la clienta.
+- **Nueva ficha:** para pedidos que llegaron por DM o WhatsApp sin formulario. Se puede pegar el mensaje y se llenan los campos.
+- La lista se actualiza sola cada minuto, o con **Actualizar**.
+
+### Agregar libros al catálogo
+
+Edita `catalogo.js` (cada libro trae instrucciones arriba) y sube el cambio a GitHub. Vercel lo publica solo.

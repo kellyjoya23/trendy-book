@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#FAF6F0">
+<title>CRM · Trendy Book</title>
+<link rel="icon" href="icons/icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="crm.css">
+<script src="vendor/supabase-2.118.0.js" defer></script>
+<script src="config.js" defer></script>
+<script src="catalogo.js" defer></script>
+<script src="crm.js" defer></script>
+</head>
+<body>
+
+<!-- ============ Acceso ============ -->
+<main class="auth" id="vAuth" hidden>
+  <div class="auth-card">
+    <img src="logo.png" alt="trendy book" class="auth-logo">
+    <h1>Curaduría interna</h1>
+
+    <form id="fLogin" class="stack-form">
+      <label class="f" for="email">Correo</label>
+      <input type="email" id="email" autocomplete="username" required value="info@trendybooksv.com">
+      <label class="f" for="pass">Contraseña</label>
+      <input type="password" id="pass" autocomplete="current-password" required>
+      <button class="btn" type="submit">Entrar</button>
+      <button class="ghost" type="button" id="olvide">Olvidé mi contraseña</button>
+    </form>
+
+    <form id="fReset" class="stack-form" hidden>
+      <p class="sub">Escribe la nueva contraseña.</p>
+      <label class="f" for="newPass">Nueva contraseña</label>
+      <input type="password" id="newPass" autocomplete="new-password" minlength="8" required>
+      <button class="btn" type="submit">Guardar contraseña</button>
+    </form>
+
+    <p class="msg" id="authMsg" role="status" hidden></p>
+  </div>
+</main>
+
+<!-- ============ CRM ============ -->
+<div class="app" id="vApp" hidden>
+  <header class="bar">
+    <img src="icons/icon-192.png" alt="" class="bar-iso">
+    <div class="bar-title"><h1>Fichas de la cita</h1><p id="resumen">Cargando…</p></div>
+    <div class="bar-actions">
+      <button class="btn2" id="btnNueva">Nueva ficha</button>
+      <button class="btn2" id="btnRecargar" aria-label="Actualizar">Actualizar</button>
+      <button class="ghost" id="btnSalir">Salir</button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <!-- Lista -->
+    <section class="list-pane" id="listPane">
+      <div class="filters">
+        <input type="search" id="buscar" placeholder="Buscar por código, nombre o notas">
+        <div class="tabs" id="tabsEstado" role="tablist"></div>
+      </div>
+      <ul class="list" id="lista"></ul>
+      <p class="empty" id="listaVacia" hidden>No hay fichas aquí todavía.</p>
+    </section>
+
+    <!-- Detalle -->
+    <section class="detail-pane" id="detailPane">
+      <div class="placeholder" id="placeholder">
+        <img src="icons/icon-192.png" alt="">
+        <p>Elige una ficha de la lista para ver sus respuestas, la sugerencia del curador y su estado.</p>
+      </div>
+
+      <div id="detalle" hidden>
+        <button class="ghost back" id="btnVolver">← Fichas</button>
+        <div class="det-head">
+          <div>
+            <p class="code" id="dCodigo"></p>
+            <h2 id="dTitulo"></h2>
+            <p class="sub" id="dFecha"></p>
+          </div>
+          <label class="estado-sel"><span>Estado</span><select id="dEstado"></select></label>
+        </div>
+
+        <!-- Sugerencia -->
+        <div class="note" id="sugerencia"></div>
+        <div id="alts"></div>
+
+        <!-- Pedido -->
+        <div class="card">
+          <h3>Libro y notas del equipo</h3>
+          <label class="f" for="dLibro">Libro elegido</label>
+          <input type="text" id="dLibro" list="listaLibros" placeholder="Título del libro que va en la cita">
+          <datalist id="listaLibros"></datalist>
+          <label class="f" for="dNotasInt">Notas internas</label>
+          <textarea id="dNotasInt" placeholder="Pago, entrega, punto de entrega, detalles del empaque…"></textarea>
+        </div>
+
+        <!-- Respuestas -->
+        <details class="card" id="respuestas" open>
+          <summary><h3>Respuestas de la clienta</h3></summary>
+          <details class="import" id="imp" hidden>
+            <summary>Pegar mensaje de WhatsApp</summary>
+            <textarea id="pegado" placeholder="Pega el mensaje con la ficha y se llenan los campos."></textarea>
+            <button class="btn2" id="btnImp" type="button">Llenar campos</button>
+          </details>
+          <div class="chips" data-single="para" id="cPara">
+            <button class="chip" data-v="regalo">Regalo</button><button class="chip" data-v="mi">Autorregalo</button>
+          </div>
+          <div class="row2">
+            <div><label class="f" for="dNombre">Quién pide</label><input type="text" id="dNombre" maxlength="80"></div>
+            <div><label class="f" for="dNombrePara">Quién recibe</label><input type="text" id="dNombrePara" maxlength="80"></div>
+            <div><label class="f" for="dEdad">Edad o etapa</label><input type="text" id="dEdad" maxlength="120"></div>
+            <div><label class="f" for="dLee">Tipo de lectora</label>
+              <select id="dLee"><option value="">Sin dato</option><option value="avido">Ávida, lee todo el tiempo</option><option value="ocasional">Ocasional</option><option value="retomando">Retomando el hábito</option><option value="casinolee">Casi no lee, pero le gustaría</option></select></div>
+          </div>
+          <label class="f">Le encanta</label><div class="chips" data-multi="gustos" id="cGustos"></div>
+          <label class="f">Evitar sí o sí</label><div class="chips avoid" data-multi="evitar" id="cEvitar"></div>
+          <label class="f" for="dEvitarOtro">Otras cosas que evitar</label><input type="text" id="dEvitarOtro" maxlength="300">
+          <label class="f" for="dOcasion">Ocasión</label><input type="text" id="dOcasion" maxlength="120">
+          <label class="f" for="dNotas">Notas de la clienta</label><textarea id="dNotas" maxlength="2000"></textarea>
+        </details>
+
+        <div class="savebar">
+          <span class="msg" id="saveMsg" role="status"></span>
+          <button class="btn" id="btnGuardar">Guardar cambios</button>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<p class="boot" id="vBoot">Cargando…</p>
+</body>
+</html>
