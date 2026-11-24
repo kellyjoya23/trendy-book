@@ -31,7 +31,7 @@ Para ver las fichas mientras tanto: **Table Editor → fichas**.
 
 ## 2. Número de WhatsApp
 
-En `config.js`, escribe el número en `whatsappNumero`, en formato internacional y sin espacios (ejemplo: `'50370001234'`). Si se deja vacío, WhatsApp se abre y la clienta elige a quién mandar la ficha.
+El número está en `config.js` (`whatsappNumero: '50360830130'`), en formato internacional y sin espacios. Para cambiarlo, edita esa línea. Si se deja vacío, WhatsApp se abre y la clienta elige a quién mandar la ficha.
 
 ## 3. Publicar en Vercel
 

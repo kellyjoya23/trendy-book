@@ -8,5 +8,5 @@ window.TRENDY_CONFIG = {
   supabaseAnonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF5cWZnc2xhdGhvcnl6d3p2ZG51Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTU0OTM5MDYsImV4cCI6MjExMTA2OTkwNn0.gnQTYcomWVF3kSUqxZggFuj_QPRsFNDT-HKid5rHSVQ',
   // Número de WhatsApp en formato internacional, sin + ni espacios. Ej: '50370001234'.
   // Vacío = WhatsApp se abre y la clienta elige a quién mandar la ficha.
-  whatsappNumero: ''
+  whatsappNumero: '50360830130'
 };
