@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#F4BEAE">
+<meta name="description" content="Cuéntanos tu tipo. Nosotras hacemos el match. Blind date with a book de Trendy Book.">
+<link rel="icon" href="icons/icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<title>Tu cita con un libro · Trendy Book</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script src="config.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+<header class="top"><img src="logo.png" alt="trendy book"></header>
+
+<main class="band">
+<div class="card unsealed" id="card">
+  <div class="art" aria-hidden="true">
+    <svg viewBox="0 0 400 470">
+      <defs>
+        <linearGradient id="paper" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FBE3DA"/><stop offset=".55" stop-color="#F7CFC2"/><stop offset="1" stop-color="#EDB6A5"/></linearGradient>
+        <radialGradient id="wax" cx=".38" cy=".34" r=".75"><stop offset="0" stop-color="#A47A3E"/><stop offset=".6" stop-color="#876029"/><stop offset="1" stop-color="#5E4219"/></radialGradient>
+        <pattern id="fib" width="14" height="14" patternUnits="userSpaceOnUse" patternTransform="rotate(28)"><path d="M0 7h14" stroke="#fff" stroke-opacity=".22" stroke-width=".8"/></pattern>
+      </defs>
+      <!-- libro envuelto -->
+      <g transform="rotate(-4 200 235)">
+        <rect x="70" y="40" width="262" height="380" rx="10" fill="#E4A693"/>
+        <rect x="62" y="34" width="262" height="380" rx="10" fill="url(#paper)"/>
+        <rect x="62" y="34" width="262" height="380" rx="10" fill="url(#fib)"/>
+        <path d="M62 44q0-10 10-10h8v380h-8q-10 0-10-10z" fill="#fff" opacity=".35"/>
+        <!-- pliegue -->
+        <path d="M62 120 L193 176 L324 120" fill="none" stroke="#D9998A" stroke-width="1.4" opacity=".7"/>
+        <!-- cordel -->
+        <path d="M193 34 V414" stroke="#C99A85" stroke-width="4"/>
+        <path d="M62 236 H324" stroke="#C99A85" stroke-width="4"/>
+        <path d="M193 236c-30-30-62-20-50 4 10 18 42 6 50-4zm0 0c30-30 62-20 50 4-10 18-42 6-50-4z" fill="none" stroke="#B9846E" stroke-width="3.6" stroke-linejoin="round"/>
+        <path d="M193 236c-8 26-26 46-40 58M193 236c8 26 22 48 34 60" fill="none" stroke="#B9846E" stroke-width="3.4" stroke-linecap="round"/>
+        <!-- tarjeta -->
+        <g transform="rotate(7 150 340)">
+          <rect x="88" y="304" width="138" height="78" rx="6" fill="#FAF6F0" stroke="#E2D6C8"/>
+          <path d="M157 318l2.2 5.3 5.3 2.2-5.3 2.2-2.2 5.3-2.2-5.3-5.3-2.2 5.3-2.2z" fill="#FF7BAC"/>
+          <text x="157" y="352" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="13" font-weight="500" fill="#3E3730">Una historia elegida</text>
+          <text x="157" y="368" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="13" font-weight="500" fill="#3E3730">especialmente para ti</text>
+        </g>
+      </g>
+      <!-- sello de cera -->
+      <g id="seal">
+        <path d="M292 196c14-2 22 8 34 8 8 6 10 18 16 28 2 12-6 20-6 32-6 10-18 12-28 18-12 2-20-6-32-6-10-6-12-18-18-28-2-12 6-20 6-32 6-10 18-12 28-20z" fill="url(#wax)"/>
+        <circle cx="292" cy="240" r="30" fill="none" stroke="#5E4219" stroke-width="2" opacity=".55"/>
+        <circle cx="292" cy="240" r="30" fill="none" stroke="#C9A06A" stroke-width="1" opacity=".5" transform="translate(-1 -1)"/>
+        <g fill="none" stroke="#E8CFA2" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity=".9">
+          <path d="M272 254v-22h8c6 0 10 4 12 10 2-6 6-10 12-10h8v22"/><path d="M292 242v16m-20-4c8-2 14 0 20 4 6-4 12-6 20-4"/>
+        </g>
+        <path d="M292 216l1.6 3.8 3.8 1.6-3.8 1.6-1.6 3.8-1.6-3.8-3.8-1.6 3.8-1.6z" fill="#E8CFA2"/>
+      </g>
+    </svg>
+  </div>
+
+  <section class="side">
+    <div class="prog" id="prog" hidden><span id="progTxt">Paso 1 de 7</span><div class="bar"><i id="progBar"></i></div></div>
+
+    <!-- 0 · Bienvenida -->
+    <div class="step on intro" data-step="0">
+      <div class="desc">Blind date with a book</div>
+      <h1>Cuéntanos tu tipo. Nosotras hacemos el match.</h1>
+      <p>Hola 🤍 Qué lindo que quieras arreglar una cita a ciegas con un libro.</p>
+      <p>Para elegirlo bien, cuéntanos un poquito de quien lo va a recibir. No necesitas escribir un ensayo: son 7 preguntas cortas y puedes saltarte las que no sepas.</p>
+      <ul>
+        <li><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3E3730" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V6a2 2 0 0 1 2-2h12v13H6a2 2 0 0 0-2 2zm0 0a2 2 0 0 0 2 2h12"/></svg><span><b class="m">Nos cuentas</b> cómo es, qué lee y qué no quiere recibir.</span></li>
+        <li><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3E3730" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h16v11H4zM2.5 5h19v4h-19zM12 5v15M12 5c-2-3-6-3-6 0m6 0c2-3 6-3 6 0"/></svg><span><b class="m">Elegimos</b> el libro, lo envolvemos a mano y lo sellamos con cera.</span></li>
+        <li><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3E3730" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 5.6-7 10-7 10z"/></svg><span><b class="m">La cita:</b> lo abre sin saber qué título es.</span></li>
+      </ul>
+      <div class="nav"><span></span><button class="btn" data-go="1">Empezar</button></div>
+    </div>
+
+    <!-- 1 · Para quién -->
+    <div class="step" data-step="1">
+      <h2>¿Para quién es la cita?</h2>
+      <p class="help">El autorregalo vale igual que regalar.</p>
+      <div class="opts one" data-single="para">
+        <button class="opt" data-v="regalo"><b>Para regalar</b><span>Tu bestie, tu mamá, tu pareja, tu compañera…</span></button>
+        <button class="opt" data-v="mi"><b>Para mí</b><span>Porque terminaste un libro, porque fue una semana larga o porque te lo mereces.</span></button>
+      </div>
+      <div class="nav"><button class="ghost" data-back>Atrás</button><button class="btn" data-next disabled id="nextPara">Siguiente</button></div>
+    </div>
+
+    <!-- 2 · Edad -->
+    <div class="step" data-step="2">
+      <h2 data-t="edad">¿Qué edad tiene, más o menos?</h2>
+      <p class="help" data-t="edadHelp">O en qué etapa de su vida está. Con algo aproximado nos basta.</p>
+      <label class="f" for="edad">Edad o etapa de vida</label>
+      <input type="text" id="edad" placeholder="Ej: 27, recién graduada">
+      <div class="nav"><button class="ghost" data-back>Atrás</button><button class="btn" data-next>Siguiente</button></div>
+    </div>
+
+    <!-- 3 · Qué tanto lee -->
+    <div class="step" data-step="3">
+      <h2 data-t="lee">¿Qué tanto lee?</h2>
+      <p class="help">Así sabemos si va un libro corto y ligero o uno para perderse días.</p>
+      <div class="opts" data-single="lee">
+        <button class="opt" data-v="avido"><b data-t="lee1">Le encanta leer</b><span>Siempre trae un libro en la bolsa.</span></button>
+        <button class="opt" data-v="ocasional"><b data-t="lee2">Lee de vez en cuando</b><span>Cuando una historia la atrapa.</span></button>
+        <button class="opt" data-v="casinolee"><b data-t="lee3">Casi no lee, pero le gustaría</b><span>Algo que enganche desde la página uno.</span></button>
+        <button class="opt" data-v="retomando"><b data-t="lee4">Está retomando el hábito</b><span>Quiere volver a leer con ganas.</span></button>
+      </div>
+      <div class="nav"><button class="ghost" data-back>Atrás</button><button class="btn" data-next>Siguiente</button></div>
+    </div>
+
+    <!-- 4 · Géneros -->
+    <div class="step" data-step="4">
+      <h2 data-t="gen">¿Qué géneros le encantan?</h2>
+      <p class="help">Elige todos los que quieras.</p>
+      <div class="chips" data-multi="gustos" id="gustos"></div>
+      <div class="nav"><button class="ghost" data-back>Atrás</button><button class="btn" data-next>Siguiente</button></div>
+    </div>
+
+    <!-- 5 · Evitar -->
+    <div class="step" data-step="5">
+      <h2 data-t="evitar">¿Hay algo que definitivamente no quieras que le llegue?</h2>
+      <p class="help">Un género o un tema sensible. Lo tomamos muy en serio.</p>
+      <div class="chips" data-multi="evitar" id="evitar"></div>
+      <label class="f" for="evitarOtro">¿Algo más que evitar?</label>
+      <input type="text" id="evitarOtro" placeholder="Ej: nada sobre hospitales, ya leyó todo de Colleen Hoover">
+      <div class="nav"><button class="ghost" data-back>Atrás</button><button class="btn" data-next>Siguiente</button></div>
+    </div>
+
+    <!-- 6 · Ocasión -->
+    <div class="step" data-step="6">
+      <h2>¿Cuál es la ocasión?</h2>
+      <p class="help">No hace falta un motivo, pero si lo hay, nos ayuda.</p>
+      <div class="chips" data-single="ocasion" id="ocasion"></div>
+      <label class="f" for="ocasionOtro">¿Otra ocasión?</label>
+      <input type="text" id="ocasionOtro" placeholder="Escríbela aquí">
+      <div class="nav"><button class="ghost" data-back>Atrás</button><button class="btn" data-next>Siguiente</button></div>
+    </div>
+
+    <!-- 7 · Algo más -->
+    <div class="step" data-step="7">
+      <h2>Algo más que quieras contarnos</h2>
+      <p class="help" data-t="notasHelp">Si está pasando por un momento especial, algo que le esté pasando, o cualquier detalle suelto que ayude.</p>
+      <label class="f" for="notas">Cuéntanos</label>
+      <textarea id="notas" placeholder="Ej: está en modo reinvención, le encantó Orgullo y prejuicio, ama los gatos…"></textarea>
+      <div class="row2">
+        <div><label class="f" for="nombre">Tu nombre</label><input type="text" id="nombre" autocomplete="given-name" placeholder="Opcional"></div>
+        <div id="wrapPara"><label class="f" for="nombrePara">¿Cómo se llama?</label><input type="text" id="nombrePara" placeholder="Opcional"></div>
+      </div>
+      <div class="nav"><button class="ghost" data-back>Atrás</button><button class="btn" data-next id="toEnd">Ver mi ficha</button></div>
+    </div>
+
+    <!-- 8 · Final -->
+    <div class="step" data-step="8">
+      <div class="desc">Ficha lista</div>
+      <h2 class="mt">Tu cita ya se está arreglando.</h2>
+      <p class="help" data-t="fin">Con esto le buscamos algo que sienta que fue elegido para ella, no al azar. Envíanos la ficha por WhatsApp y seguimos por ahí.</p>
+      <dl class="sum" id="sum"></dl>
+      <div class="nav pt">
+        <button class="ghost" data-back>Editar</button>
+        <a class="btn" id="wa" href="#" target="_blank" rel="noopener">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3E3730" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21l1.6-4.6A8.5 8.5 0 1 1 8 19.6z"/><path d="M9 9.5c0 3 2.5 5.5 5.5 5.5l1-1.6-2-1-1 .8a4 4 0 0 1-1.7-1.7l.8-1-1-2z"/></svg>
+          Enviar por WhatsApp</a>
+      </div>
+      <p class="small">¿No se abre WhatsApp? <button class="ghost link" id="copy">Copia tu ficha</button> y pégala en un mensaje a <span id="waTxt">@trendybooksv</span>. <span id="copied" class="copied" hidden>Copiada.</span></p>
+    </div>
+  </section>
+</div>
+<p class="foot">Seleccionado y empacado a mano · El Salvador · @trendybooksv</p>
+</main>
+
+</body>
+</html>
