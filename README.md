@@ -24,7 +24,7 @@ No hay que instalar nada ni compilar.
 
 ## 1. Base de datos en Supabase
 
-Proyecto: **trendy-book** (dentro de la organización de Katana's Grooming).
+Proyecto: **trendy-book** (organización 916studio's Org).
 
 La tabla `fichas` ya está creada con sus reglas de seguridad. `supabase/schema.sql` es la copia de esa estructura: sirve para revisarla o recrearla en otro proyecto (en **SQL Editor → New query → Run**). Se puede volver a ejecutar sin perder datos.
 
