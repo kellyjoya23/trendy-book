@@ -107,7 +107,7 @@ const confirmarSalida = () => confirm('Hay cambios sin guardar. ¿Salir sin guar
 const marcarSucio = () => { sucio = true; $('#saveMsg').textContent = 'Cambios sin guardar'; $('#saveMsg').className = 'msg'; };
 
 const CAMPOS = { dNombre:'nombre', dNombrePara:'nombre_para', dEdad:'edad', dLee:'lee', dEvitarOtro:'evitar_otro', dOcasion:'ocasion', dNotas:'notas', dEstado:'estado', dLibro:'libro', dNotasInt:'notas_internas',
-  dFecha2:'fecha_deseada', dEntrega:'entrega', dPunto:'punto', dDireccion:'direccion', dPago:'pago', dTelefono:'telefono', dDedicatoria:'dedicatoria' };
+  dFecha2:'fecha_deseada', dEntrega:'entrega', dPunto:'punto', dDireccion:'direccion', dPago:'pago', dTelefono:'telefono', dDedicatoria:'dedicatoria', dIdioma:'idioma', dColor:'color' };
 const waLink = t => { let d = String(t || '').replace(/\D/g, ''); if (d.length === 8) d = '503' + d; return d.length >= 8 ? 'https://wa.me/' + d : ''; };
 const syncWa = () => { const u = waLink($('#dTelefono').value); $('#dWa').hidden = !u; if (u) $('#dWa').href = u; };
 const fechaCorta = f => f.lo_antes_posible ? 'Lo antes posible' : f.fecha_deseada ? 'Para el ' + new Date(f.fecha_deseada + 'T12:00:00').toLocaleDateString('es-SV', { day: 'numeric', month: 'short' }) : '';
@@ -181,6 +181,8 @@ $('#btnImp').addEventListener('click', () => {
   if (d['ocasion']) $('#dOcasion').value = d['ocasion'];
   if (d['notas']) $('#dNotas').value = d['notas'];
   if (d['notita']) $('#dDedicatoria').value = d['notita'];
+  if (d['color favorito']) $('#dColor').value = d['color favorito'];
+  if (d['idioma']) { const n = norm(d['idioma']); $('#dIdioma').value = n.includes('cualquiera') ? 'cualquiera' : n.includes('ingles') ? 'en' : n.includes('espanol') ? 'es' : ''; }
   if (d['whatsapp']) { $('#dTelefono').value = d['whatsapp']; syncWa(); }
   if (d['direccion']) $('#dDireccion').value = d['direccion'];
   if (d['punto']) $('#dPunto').value = d['punto'];
@@ -217,7 +219,7 @@ const sugerir = () => {
     <p class="tease">${esc(top.b.teaser)}</p>
     <p class="real"><b>${esc(top.b.titulo)}</b> · ${esc(top.b.autor)}${top.b.goodreads ? ' · ★ ' + esc(top.b.goodreads.rating) : ''}</p>
     <div class="tags">${[...top.b.generos.map(g => GL[g] || g), top.b.longitud, ...top.b.eviteSi.map(t => 'toca: ' + (GL[t] || t))].map(t => `<span class="tag">${esc(t)}</span>`).join('')}</div>
-    <p class="why">${esc(top.why.join(' · ') || 'Perfil general, sin coincidencias fuertes')}. Puntaje ${top.s}.</p>
+    <p class="why">${esc(top.why.join(' · ') || 'Perfil general, sin coincidencias fuertes')}. Puntaje ${top.s}.${r0.idioma === 'en' ? ' Lo prefiere en inglés.' : r0.idioma === 'es' ? ' Lo prefiere en español.' : ''}</p>
     <div class="acts"><button class="btn2" type="button" data-usar="0">Usar este libro</button><button class="btn2" type="button" id="cpTease">Copiar teaser</button><span class="msg" id="cpMsg"></span></div>`;
   $('#alts').innerHTML = `<details class="card"><summary><h3>Alternativas</h3></summary>${r.slice(1, 4).map((x, i) => `<div class="alt"><div><b>${esc(x.b.titulo)}</b><span>${esc(x.why.join(' · ') || 'perfil general')}</span></div><div><em>${x.s} pts</em><button class="btn2" type="button" data-usar="${i + 1}">Usar</button></div></div>`).join('')}</details>`;
   $('#sugerencia').onclick = $('#alts').onclick = async e => {

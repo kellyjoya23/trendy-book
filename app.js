@@ -14,9 +14,13 @@ const T={ /* [regalo, para mí] */
  gen:['¿Qué géneros le encantan?','¿Qué géneros te encantan?'],
  evitar:['¿Hay algo que definitivamente no quieras que le llegue?','¿Hay algo que definitivamente no quieras recibir?'],
  notasHelp:['Si está pasando por un momento especial, algo que le esté pasando, o cualquier detalle suelto que ayude.','Si estás pasando por un momento especial, algo que te esté pasando, o cualquier detalle suelto que ayude.'],
+ idiomaLbl:['¿En qué idioma prefiere leer?','¿En qué idioma prefieres leer?'],
+ colorH:['¿Cuál es su color favorito?','¿Cuál es tu color favorito?'],
  fin:['Con esto le buscamos algo que sienta que fue elegido para ella, no al azar. Envíanos la ficha por WhatsApp y te confirmamos el precio, el envío y el pago.','Con esto te buscamos algo que sientas que fue elegido para ti, no al azar. Envíanos la ficha por WhatsApp y te confirmamos el precio, el envío y el pago.']
 };
-const S={para:'',lee:'',ocasion:'',cuando:'',entrega:'',punto:'',pago:'',gustos:new Set(),evitar:new Set()};
+const S={para:'',lee:'',idioma:'',color:'',ocasion:'',cuando:'',entrega:'',punto:'',pago:'',gustos:new Set(),evitar:new Set()};
+const IDIOMA={es:'Español',en:'Inglés',cualquiera:'Cualquiera de los dos'};
+const COLORES=[['Rosa','#F4A6C0'],['Rojo','#D64545'],['Morado','#9C6ADE'],['Lila','#CDB4F0'],['Azul','#5B8DEF'],['Celeste','#A8D8F0'],['Verde','#6FBF73'],['Verde menta','#B8E6CF'],['Amarillo','#F7D154'],['Naranja','#F59A5A'],['Durazno','#F4BEAE'],['Beige','#E6D5BF'],['Café','#8B5E3C'],['Negro','#2B2B2B'],['Blanco','#FFFFFF'],['Sorpréndanme','']];
 const ENTREGA={punto:'Punto de entrega en Sonsonate',domicilio:'A domicilio en Sonsonate',envio:'Envío al resto del país (Boxful)'};
 const PAGO={transferencia:'Transferencia (total al reservar)',contraentrega:'Contra entrega (50% de anticipo)'};
 const nuevoCodigo=()=>{const a='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',r=new Uint8Array(5);crypto.getRandomValues(r);return 'TB-'+[...r].map(n=>a[n%a.length]).join('')};
@@ -25,6 +29,8 @@ const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const chips=(arr,el)=>{el.innerHTML=arr.map(([v,l])=>`<button class="chip" data-v="${v}" aria-pressed="false">${esc(l)}</button>`).join('')};
 chips(GUSTOS,$('#gustos'));chips(EVITAR,$('#evitar'));
+$('#colores').innerHTML=COLORES.map(([n,h])=>`<button class="sw${h?'':' sorpresa'}" data-v="${esc(n)}" aria-pressed="false"><i${h?` style-bg="${h}"`:''}></i>${esc(n)}</button>`).join('');
+$$('#colores [style-bg]').forEach(i=>i.style.background=i.getAttribute('style-bg'));
 const drawOcas=()=>{const k=S.para||'regalo';chips(OCAS[k].map(o=>[o,o]),$('#ocasion'));$$('#ocasion .chip').forEach(c=>c.setAttribute('aria-pressed',c.dataset.v===S.ocasion))};
 drawOcas();
 
@@ -52,7 +58,7 @@ document.addEventListener('click',e=>{
   const go=e.target.closest('[data-go]'); if(go)return show(+go.dataset.go);
   if(e.target.closest('[data-next]')&&!e.target.closest('[disabled]'))return show(Math.min(cur+1,LAST));
   if(e.target.closest('[data-back]'))return show(Math.max(cur-1,0));
-  const b=e.target.closest('.opt,.chip'); if(!b)return;
+  const b=e.target.closest('.opt,.chip,.sw'); if(!b)return;
   const single=b.parentElement.dataset.single, multi=b.parentElement.dataset.multi, v=b.dataset.v;
   if(single){
     S[single]=S[single]===v&&single!=='para'?'':v;
@@ -85,12 +91,14 @@ const ficha=()=>{
       ['Para',mi?'Para mí':'Regalo'],
       ['Edad / etapa',v('edad')],
       ['Lee',S.lee?LEE[S.lee][mi?1:0]:''],
+      ['Idioma',IDIOMA[S.idioma]||''],
       [mi?'Me encanta':'Le encanta',lbl(GUSTOS,S.gustos)],
       ['Evitar',ev],
       ['Ocasión',S.ocasion||v('ocasionOtro')],
       ['Notas',v('notas')]])],
     ['02 · La cita',limpia([
       ['Para cuándo',fechaTxt()],
+      ['Color favorito',S.color],
       ['Se llama',mi?'':v('nombrePara')],
       ['Notita',mi?'':v('dedicatoria')]])],
     ['03 · Entrega',limpia([
@@ -114,7 +122,7 @@ const registro=()=>{const v=id=>$('#'+id).value.trim()||null;return{
   dedicatoria:S.para==='mi'?null:v('dedicatoria'),
   entrega:S.entrega||null, punto:S.entrega==='punto'?(S.punto||null):null,
   direccion:['domicilio','envio'].includes(S.entrega)?v('direccion'):null,
-  pago:S.pago||null, telefono:v('telefono')}};
+  pago:S.pago||null, telefono:v('telefono'), idioma:S.idioma||null, color:S.color||null}};
 const guardar=()=>{
   if(!CFG.supabaseUrl||!CFG.supabaseAnonKey)return;
   const firma=JSON.stringify({...registro(),codigo:''});

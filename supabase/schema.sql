@@ -18,6 +18,7 @@ create table if not exists public.fichas (
   nombre_para     text check (char_length(nombre_para) <= 80),  -- quien recibe
   edad            text check (char_length(edad) <= 120),
   lee             text check (lee in ('avido', 'ocasional', 'casinolee', 'retomando')),
+  idioma          text check (idioma in ('es', 'en', 'cualquiera')),
   gustos          text[] not null default '{}' check (cardinality(gustos) <= 12),
   evitar          text[] not null default '{}' check (cardinality(evitar) <= 12),
   evitar_otro     text check (char_length(evitar_otro) <= 300),
@@ -28,6 +29,7 @@ create table if not exists public.fichas (
   fecha_deseada    date,
   lo_antes_posible boolean not null default false,
   dedicatoria      text check (char_length(dedicatoria) <= 300),   -- notita escrita a mano
+  color            text check (char_length(color) <= 40),          -- color favorito, para los detalles
 
   -- 03 · Entrega y pago
   entrega         text check (entrega in ('punto', 'domicilio', 'envio')),
@@ -52,7 +54,9 @@ alter table public.fichas
   add column if not exists punto            text check (char_length(punto) <= 80),
   add column if not exists direccion        text check (char_length(direccion) <= 300),
   add column if not exists pago             text check (pago in ('transferencia', 'contraentrega')),
-  add column if not exists telefono         text check (char_length(telefono) <= 20);
+  add column if not exists telefono         text check (char_length(telefono) <= 20),
+  add column if not exists idioma           text check (idioma in ('es', 'en', 'cualquiera')),
+  add column if not exists color            text check (char_length(color) <= 40);
 
 create index if not exists fichas_creada_idx on public.fichas (creada desc);
 create index if not exists fichas_estado_idx on public.fichas (estado);

@@ -115,6 +115,12 @@
         <button class="opt" data-v="casinolee"><b data-t="lee3">Casi no lee, pero le gustaría</b><span>Algo que enganche desde la página uno.</span></button>
         <button class="opt" data-v="retomando"><b data-t="lee4">Está retomando el hábito</b><span>Quiere volver a leer con ganas.</span></button>
       </div>
+      <label class="f" data-t="idiomaLbl">¿En qué idioma prefiere leer?</label>
+      <div class="chips" data-single="idioma">
+        <button class="chip" data-v="es" aria-pressed="false">Español</button>
+        <button class="chip" data-v="en" aria-pressed="false">Inglés</button>
+        <button class="chip" data-v="cualquiera" aria-pressed="false">Cualquiera de los dos</button>
+      </div>
       <div class="nav"><button class="ghost" data-back>Atrás</button><button class="btn" data-next>Siguiente</button></div>
     </div>
 
@@ -164,6 +170,9 @@
         <button class="chip" data-v="fecha" aria-pressed="false">Tengo una fecha</button>
       </div>
       <div id="wrapFecha" hidden><label class="f" for="fecha">Fecha</label><input type="date" id="fecha"></div>
+      <h3 class="sub-h" data-t="colorH">¿Cuál es su color favorito?</h3>
+      <p class="help">Lo usamos para elegir los detalles que van con el libro.</p>
+      <div class="swatches" data-single="color" id="colores"></div>
       <div id="wrapNotita">
         <h3 class="sub-h">La notita</h3>
         <p class="help">Cada cita va envuelta a mano y sellada con cera. Si quieres, la acompañamos con una notita escrita a mano.</p>
