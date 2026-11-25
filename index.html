@@ -19,7 +19,7 @@
 <header class="top"><img src="logo-horizontal.png" alt="trendy book" width="1006" height="175"></header>
 
 <main class="band">
-<div class="card unsealed" id="card">
+<div class="card unsealed" id="card" data-paso="0">
   <div class="art">
     <img src="producto.jpg" alt="Una cita de Trendy Book: libro envuelto a mano en papel floral, sellado con cera, con separador, pin y detalles" width="960" height="1200">
   </div>
@@ -135,7 +135,8 @@
       <div id="wrapFecha" hidden><label class="f" for="fecha">Fecha</label><input type="date" id="fecha"></div>
       <h3 class="sub-h" data-t="colorH">¿Cuál es su color favorito?</h3>
       <p class="help">Lo usamos para elegir los detalles que van con el libro.</p>
-      <div class="swatches" data-single="color" id="colores"></div>
+      <div class="swatches" data-single="color" id="colores" role="group" aria-label="Colores"></div>
+      <p class="sw-name" id="colorNombre" aria-live="polite">Toca un color para elegirlo.</p>
       <div id="wrapNotita">
         <h3 class="sub-h">La notita</h3>
         <p class="help">Cada cita va envuelta a mano y sellada con cera. Si quieres, la acompañamos con una notita escrita a mano.</p>

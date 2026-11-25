@@ -29,7 +29,7 @@ const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const chips=(arr,el)=>{el.innerHTML=arr.map(([v,l])=>`<button class="chip" data-v="${v}" aria-pressed="false">${esc(l)}</button>`).join('')};
 chips(GUSTOS,$('#gustos'));chips(EVITAR,$('#evitar'));
-$('#colores').innerHTML=COLORES.map(([n,h])=>`<button class="sw${h?'':' sorpresa'}" data-v="${esc(n)}" aria-pressed="false"><i${h?` style-bg="${h}"`:''}></i>${esc(n)}</button>`).join('');
+$('#colores').innerHTML=COLORES.map(([n,h])=>`<button class="sw${h?'':' sorpresa'}" data-v="${esc(n)}" aria-pressed="false" aria-label="${esc(n)}" title="${esc(n)}"><i${h?` style-bg="${h}"`:''}></i></button>`).join('');
 $$('#colores [style-bg]').forEach(i=>i.style.background=i.getAttribute('style-bg'));
 const drawOcas=()=>{const k=S.para||'regalo';chips(OCAS[k].map(o=>[o,o]),$('#ocasion'));$$('#ocasion .chip').forEach(c=>c.setAttribute('aria-pressed',c.dataset.v===S.ocasion))};
 drawOcas();
@@ -39,6 +39,7 @@ let cur=0;const LAST=11;
 const FASE=n=>n<=7?[1,`Pregunta ${n} de 7`]:n===8?[2,'Preparamos tu cita']:[3,`Coordinamos la entrega · ${n-8} de 2`];
 const show=n=>{
   cur=n;$$('.step').forEach(s=>s.classList.toggle('on',+s.dataset.step===n));
+  $('#card').dataset.paso=n;
   $('#prog').hidden=n===0||n===LAST;
   if(n>0&&n<LAST){const [f,t]=FASE(n);$('#progTxt').textContent=t;$('#progBar').style.width=(n/10*100)+'%';
     $$('.fases li').forEach(li=>{const k=+li.dataset.f;li.classList.toggle('on',k===f);li.classList.toggle('ok',k<f)});}
@@ -65,6 +66,7 @@ document.addEventListener('click',e=>{
     [...b.parentElement.children].forEach(c=>c.setAttribute('aria-pressed',c.dataset.v===S[single]));
     if(single==='para'){$('#nextPara').disabled=false;applyT();}
     if(single==='ocasion'&&S.ocasion)$('#ocasionOtro').value='';
+    if(single==='color')$('#colorNombre').innerHTML=S.color?`Elegiste: <b>${esc(S.color)}</b>`:'Toca un color para elegirlo.';
     if(single==='cuando')$('#wrapFecha').hidden=S.cuando!=='fecha';
     if(single==='entrega'){$('#wrapPunto').hidden=S.entrega!=='punto';$('#wrapDir').hidden=!['domicilio','envio'].includes(S.entrega);}
   }else if(multi){
