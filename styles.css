@@ -62,7 +62,8 @@ button:focus-visible,input:focus-visible,textarea:focus-visible,a:focus-visible{
 .sum dd{margin:0;font-weight:400;overflow-wrap:anywhere}
 .small{font-size:13px;color:var(--ink2);margin-top:12px}
 .copied{color:var(--earth);font-weight:500}
-.foot{text-align:center;font-size:13px;color:var(--ink2);margin-top:22px}
+.foot{display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center;font-size:13px;color:var(--ink2);margin-top:26px}
+.foot p{margin:0}
 @media(max-width:820px){
  .card{grid-template-columns:minmax(0,1fr)}
  .art{height:clamp(280px,62vw,420px)}
@@ -102,4 +103,4 @@ input[type=date]:focus,input[type=tel]:focus{border-color:var(--terra);backgroun
 .sw:hover{border-color:var(--terra)}
 .sw[aria-pressed=true]{border-color:var(--ink);background:var(--cream);box-shadow:0 0 0 1px var(--ink)}
 .sw.sorpresa i{background:conic-gradient(#F48FB1,#CE93D8,#90CAF9,#A5D6A7,#FFE082,#FFAB91,#F48FB1)}
-@media(max-width:480px){.top img{width:118px}.handle{font-size:10.5px;letter-spacing:.1em;padding:8px 11px;gap:6px}}
+@media(max-width:480px){.top img{width:118px}}
