@@ -5,24 +5,25 @@ const WA_NUMERO = (CFG.whatsappNumero || '').replace(/\D/g, '');
 
 const GUSTOS=[['romance','Romance'],['romantasy','Romantasy'],['fantasia','Fantasía'],['misterio','Misterio / Thriller'],['drama','Drama / Contemporánea'],['humor','Humor / Ligero'],['clasicos','Clásicos'],['autoayuda','Autoayuda / Crecimiento'],['poesia','Poesía'],['sorpresa','Sorpréndanme']];
 const EVITAR=[['romance','Romance'],['fantasia','Fantasía'],['misterio','Misterio / Thriller'],['drama','Drama'],['clasicos','Clásicos'],['autoayuda','Autoayuda'],['poesia','Poesía'],['triste','Temas tristes / duelo'],['spicy','Escenas explícitas (spicy)'],['violencia','Violencia fuerte'],['nada','Nada en especial']];
-const OCAS={regalo:['Cumpleaños','Aniversario','Para dar las gracias','Para animarla','Navidad','Sin motivo'],mi:['Darme un gusto','Terminé un libro','Fue una semana larga','Celebrar un logro','Navidad','Sin motivo']};
 const LEE={avido:['Le encanta leer','Me encanta leer'],ocasional:['Lee de vez en cuando','Leo de vez en cuando'],casinolee:['Casi no lee, pero le gustaría','Casi no leo, pero me gustaría'],retomando:['Está retomando el hábito','Estoy retomando el hábito']};
 const T={ /* [regalo, para mí] */
  edad:['¿Qué edad tiene, más o menos?','¿Qué edad tienes, más o menos?'],
  edadHelp:['O en qué etapa de su vida está. Con algo aproximado nos basta.','O en qué etapa de tu vida estás. Con algo aproximado nos basta.'],
  lee:['¿Qué tanto lee?','¿Qué tanto lees?'],
- gen:['¿Qué géneros le encantan?','¿Qué géneros te encantan?'],
+ gen:['¿Qué géneros le gustaría recibir?','¿Qué géneros te gustaría recibir?'],
  evitar:['¿Hay algo que definitivamente no quieras que le llegue?','¿Hay algo que definitivamente no quieras recibir?'],
  notasHelp:['Si está pasando por un momento especial, algo que le esté pasando, o cualquier detalle suelto que ayude.','Si estás pasando por un momento especial, algo que te esté pasando, o cualquier detalle suelto que ayude.'],
  idiomaLbl:['¿En qué idioma prefiere leer?','¿En qué idioma prefieres leer?'],
  colorH:['¿Cuál es su color favorito?','¿Cuál es tu color favorito?'],
- fin:['Con esto le buscamos algo que sienta que fue elegido para ella, no al azar. Envíanos la ficha por WhatsApp y te confirmamos el precio, el envío y el pago.','Con esto te buscamos algo que sientas que fue elegido para ti, no al azar. Envíanos la ficha por WhatsApp y te confirmamos el precio, el envío y el pago.']
+ fin:['Con esta información buscamos algo especialmente para quien la recibe, no al azar. Envíanos la ficha por WhatsApp para completar la compra.','Con esta información buscamos algo especialmente para ti, no al azar. Envíanos la ficha por WhatsApp para completar la compra.']
 };
-const S={para:'',lee:'',idioma:'',color:'',ocasion:'',cuando:'',entrega:'',punto:'',pago:'',gustos:new Set(),evitar:new Set()};
+const S={para:'',lee:'',idioma:'',color:'',entrega:'',punto:'',pago:'transferencia',gustos:new Set(),evitar:new Set()};
 const IDIOMA={es:'Español',en:'Inglés',cualquiera:'Cualquiera de los dos'};
-const COLORES=[['Rosa','#F4A6C0'],['Rojo','#D64545'],['Morado','#9C6ADE'],['Lila','#CDB4F0'],['Azul','#5B8DEF'],['Celeste','#A8D8F0'],['Verde','#6FBF73'],['Verde menta','#B8E6CF'],['Amarillo','#F7D154'],['Naranja','#F59A5A'],['Durazno','#F4BEAE'],['Beige','#E6D5BF'],['Café','#8B5E3C'],['Negro','#2B2B2B'],['Blanco','#FFFFFF'],['Sorpréndanme','']];
-const ENTREGA={punto:'Punto de entrega en Sonsonate',domicilio:'A domicilio en Sonsonate',envio:'Envío al resto del país (Boxful)'};
-const PAGO={transferencia:'Transferencia (total al reservar)',contraentrega:'Contra entrega (50% de anticipo)'};
+const COLORES=[['Rosa','#F4A6C0'],['Rojo','#D64545'],['Morado','#9C6ADE'],['Lila','#CDB4F0'],['Azul','#5B8DEF'],['Celeste','#A8D8F0'],['Verde','#6FBF73'],['Verde menta','#B8E6CF'],['Amarillo','#F7D154'],['Naranja','#F59A5A'],['Durazno','#F4BEAE'],['Beige','#E6D5BF'],['Café','#8B5E3C'],['Negro','#2B2B2B']];
+const ENTREGA={envio:'Envío a todos los departamentos (Boxful, 3 a 5 días)',punto:'Punto fijo (24 h)',domicilio:'Entrega personalizada (24 h)'};
+const PAGO={transferencia:'Transferencia'};
+const FOTOS=[['producto.jpg','Una cita de Trendy Book: libro envuelto a mano en papel floral, sellado con cera, con separador, pin y detalles'],['foto-rosa.jpg','Cita de Trendy Book en papel de flores silvestres, con sello de cera rosa, borla y detalles'],['foto-amarilla.jpg','Cita de Trendy Book en papel de flores amarillas, con sello de cera dorado, borla y book review']];
+FOTOS.slice(1).forEach(([f])=>{const i=new Image();i.src=f});
 const nuevoCodigo=()=>{const a='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',r=new Uint8Array(5);crypto.getRandomValues(r);return 'TB-'+[...r].map(n=>a[n%a.length]).join('')};
 let codigo=nuevoCodigo(), guardadoFirma='';
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
@@ -31,18 +32,17 @@ const chips=(arr,el)=>{el.innerHTML=arr.map(([v,l])=>`<button class="chip" data-
 chips(GUSTOS,$('#gustos'));chips(EVITAR,$('#evitar'));
 $('#colores').innerHTML=COLORES.map(([n,h])=>`<button class="sw${h?'':' sorpresa'}" data-v="${esc(n)}" aria-pressed="false"><i${h?` style-bg="${h}"`:''}></i>${esc(n)}</button>`).join('');
 $$('#colores [style-bg]').forEach(i=>i.style.background=i.getAttribute('style-bg'));
-const drawOcas=()=>{const k=S.para||'regalo';chips(OCAS[k].map(o=>[o,o]),$('#ocasion'));$$('#ocasion .chip').forEach(c=>c.setAttribute('aria-pressed',c.dataset.v===S.ocasion))};
-drawOcas();
 
-let cur=0;const LAST=11;
+let cur=0;const LAST=10;
 /* paso -> [fase, texto de avance] */
-const FASE=n=>n<=7?[1,`Pregunta ${n} de 7`]:n===8?[2,'Preparamos tu cita']:[3,`Coordinamos la entrega · ${n-8} de 2`];
+const FASE=n=>n<=6?[1,`Pregunta ${n} de 6`]:n===7?[2,'Preparamos tu cita']:[3,`Coordinamos la entrega · ${n-7} de 2`];
 const show=n=>{
   cur=n;$$('.step').forEach(s=>s.classList.toggle('on',+s.dataset.step===n));
   $('#prog').hidden=n===0||n===LAST;
-  if(n>0&&n<LAST){const [f,t]=FASE(n);$('#progTxt').textContent=t;$('#progBar').style.width=(n/10*100)+'%';
+  if(n>0&&n<LAST){const [f,t]=FASE(n);$('#progTxt').textContent=t;$('#progBar').style.width=(n/9*100)+'%';
     $$('.fases li').forEach(li=>{const k=+li.dataset.f;li.classList.toggle('on',k===f);li.classList.toggle('ok',k<f)});}
   $('#card').classList.toggle('unsealed',n!==LAST);
+  {const [f,a]=FOTOS[n===0||n===LAST?0:(n%2?1:2)];const im=$('#foto');if(!im.src.endsWith(f)){im.src=f;im.alt=a;}}
   if(n===LAST)render();
   const f=document.querySelector(`.step[data-step="${n}"] input,.step[data-step="${n}"] textarea`);
   if(f&&matchMedia('(min-width:821px)').matches)setTimeout(()=>f.focus(),60);
@@ -51,7 +51,7 @@ const show=n=>{
 const applyT=()=>{const i=S.para==='mi'?1:0;
   $$('[data-t]').forEach(el=>{const k=el.dataset.t;if(T[k])el.textContent=T[k][i]});
   ['avido','ocasional','casinolee','retomando'].forEach((k,j)=>{const b=document.querySelector(`[data-t="lee${j+1}"]`);if(b)b.textContent=LEE[k][i]});
-  $('#wrapNotita').hidden=S.para==='mi';$('#notaMi').hidden=S.para!=='mi';drawOcas();
+  $('#wrapNotita').hidden=S.para==='mi';
 };
 
 document.addEventListener('click',e=>{
@@ -64,8 +64,6 @@ document.addEventListener('click',e=>{
     S[single]=S[single]===v&&single!=='para'?'':v;
     [...b.parentElement.children].forEach(c=>c.setAttribute('aria-pressed',c.dataset.v===S[single]));
     if(single==='para'){$('#nextPara').disabled=false;applyT();}
-    if(single==='ocasion'&&S.ocasion)$('#ocasionOtro').value='';
-    if(single==='cuando')$('#wrapFecha').hidden=S.cuando!=='fecha';
     if(single==='entrega'){$('#wrapPunto').hidden=S.entrega!=='punto';$('#wrapDir').hidden=!['domicilio','envio'].includes(S.entrega);}
   }else if(multi){
     const set=S[multi];
@@ -77,31 +75,33 @@ document.addEventListener('click',e=>{
     [...b.parentElement.children].forEach(c=>c.setAttribute('aria-pressed',set.has(c.dataset.v)));
   }
 });
-$('#ocasionOtro').addEventListener('input',()=>{if($('#ocasionOtro').value){S.ocasion='';$$('#ocasion .chip').forEach(c=>c.setAttribute('aria-pressed','false'))}});
+/* Fecha: mínimo 48 h */
+const abrirFecha=()=>{const f=$('#fecha');try{f.showPicker()}catch(_){f.focus();f.click()}};
+$('#btnFecha').addEventListener('click',abrirFecha);
+$('#fecha').addEventListener('change',()=>{const t=fechaTxt();$('#fechaTxt').textContent=t||'Seleccionar fecha';$('#btnFecha').setAttribute('aria-pressed',!!t)});
 document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.matches('input[type=text],input[type=tel]')){e.preventDefault();show(Math.min(cur+1,LAST))}});
 
 const lbl=(arr,set)=>arr.filter(([v])=>set.has(v)).map(([,l])=>l).join(', ');
-const fechaTxt=()=>{const f=$('#fecha').value;if(S.cuando==='pronto')return 'Lo antes posible';if(!f)return '';const d=new Date(f+'T12:00:00');return d.toLocaleDateString('es-SV',{weekday:'long',day:'numeric',month:'long'})};
+const fechaTxt=()=>{const f=$('#fecha').value;if(!f)return '';const d=new Date(f+'T12:00:00');return d.toLocaleDateString('es-SV',{weekday:'long',day:'numeric',month:'long'})};
 const ficha=()=>{
   const mi=S.para==='mi', v=id=>$('#'+id).value.trim();
   const ev=[lbl(EVITAR,S.evitar),v('evitarOtro')].filter(Boolean).join(', ');
   const limpia=rows=>rows.filter(([,x])=>x);
   return [
-    ['01 · Gustos',limpia([
+    ['1 · Gustos',limpia([
       ['Para',mi?'Para mí':'Regalo'],
       ['Edad / etapa',v('edad')],
       ['Lee',S.lee?LEE[S.lee][mi?1:0]:''],
       ['Idioma',IDIOMA[S.idioma]||''],
       [mi?'Me encanta':'Le encanta',lbl(GUSTOS,S.gustos)],
       ['Evitar',ev],
-      ['Ocasión',S.ocasion||v('ocasionOtro')],
       ['Notas',v('notas')]])],
-    ['02 · La cita',limpia([
+    ['2 · La cita',limpia([
       ['Para cuándo',fechaTxt()],
       ['Color favorito',S.color],
       ['Se llama',mi?'':v('nombrePara')],
       ['Notita',mi?'':v('dedicatoria')]])],
-    ['03 · Entrega',limpia([
+    ['3 · Entrega',limpia([
       ['Entrega',ENTREGA[S.entrega]||''],
       ['Punto',S.entrega==='punto'?S.punto:''],
       ['Dirección',['domicilio','envio'].includes(S.entrega)?v('direccion'):''],
@@ -117,8 +117,8 @@ const mensaje=()=>{const mi=S.para==='mi';
 const registro=()=>{const v=id=>$('#'+id).value.trim()||null;return{
   codigo, para:S.para||'regalo', nombre:v('nombre'), nombre_para:S.para==='mi'?null:v('nombrePara'),
   edad:v('edad'), lee:S.lee||null, gustos:[...S.gustos], evitar:[...S.evitar].filter(x=>x!=='nada'),
-  evitar_otro:v('evitarOtro'), ocasion:S.ocasion||v('ocasionOtro'), notas:v('notas'),
-  fecha_deseada:S.cuando==='fecha'?v('fecha'):null, lo_antes_posible:S.cuando==='pronto',
+  evitar_otro:v('evitarOtro'), ocasion:null, notas:v('notas'),
+  fecha_deseada:v('fecha'), lo_antes_posible:false,
   dedicatoria:S.para==='mi'?null:v('dedicatoria'),
   entrega:S.entrega||null, punto:S.entrega==='punto'?(S.punto||null):null,
   direccion:['domicilio','envio'].includes(S.entrega)?v('direccion'):null,
@@ -140,6 +140,6 @@ const render=()=>{
   $('#copied').hidden=true;
 };
 $('#copy').addEventListener('click',async()=>{guardar();try{await navigator.clipboard.writeText(mensaje());$('#copied').hidden=false}catch(_){$('#copied').textContent='No se pudo copiar; selecciona el texto de la ficha.';$('#copied').hidden=false}});
-{const d=new Date();$('#fecha').min=new Date(d-d.getTimezoneOffset()*6e4).toISOString().slice(0,10)}
-if(WA_NUMERO)$('#waTxt').textContent='+'+WA_NUMERO;
+{const d=new Date(Date.now()+2*864e5);$('#fecha').min=new Date(d-d.getTimezoneOffset()*6e4).toISOString().slice(0,10)}
+if(WA_NUMERO)$('#waTxt').textContent=WA_NUMERO.length===11&&WA_NUMERO.startsWith('503')?`+503 ${WA_NUMERO.slice(3,7)} ${WA_NUMERO.slice(7)}`:'+'+WA_NUMERO;
 }

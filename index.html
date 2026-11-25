@@ -21,15 +21,15 @@
 <main class="band">
 <div class="card unsealed" id="card">
   <div class="art">
-    <img src="producto.jpg" alt="Una cita de Trendy Book: libro envuelto a mano en papel floral, sellado con cera, con separador, pin y detalles" width="960" height="1200">
+    <img id="foto" src="producto.jpg" alt="Una cita de Trendy Book: libro envuelto a mano en papel floral, sellado con cera, con separador, pin y detalles" width="960" height="1200">
   </div>
 
   <section class="side">
     <div class="prog" id="prog" hidden>
       <ol class="fases" aria-label="Pasos">
-        <li data-f="1"><b>01</b> Formulario</li>
-        <li data-f="2"><b>02</b> Tu cita</li>
-        <li data-f="3"><b>03</b> Entrega</li>
+        <li data-f="1"><b>1</b> Formulario</li>
+        <li data-f="2"><b>2</b> Tu cita</li>
+        <li data-f="3"><b>3</b> Entrega</li>
       </ol>
       <div class="progrow"><span id="progTxt">Pregunta 1 de 7</span><div class="bar"><i id="progBar"></i></div></div>
     </div>
@@ -45,7 +45,7 @@
         <li><span class="ico" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3E3730" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="8" width="17" height="4" rx="1"/><path d="M5 12v8h14v-8M12 8v12M12 8c-1.5-3.5-6-3.5-5-.5.4 1 2.5.5 5 .5zm0 0c1.5-3.5 6-3.5 5-.5-.4 1-2.5.5-5 .5z"/></svg></span><div><b>Preparamos tu cita</b><span>Elegimos tu libro y lo empacamos especialmente para ti.</span></div></li>
         <li><span class="ico" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3E3730" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4.5v5M12 3L4 7.5v9L12 21M4 7.5l8 4.5 8-4.5M12 12v9"/><path d="M15 18l2 2 4-4"/></svg></span><div><b>Coordinamos la entrega</b><span>Tu cita está lista para encontrarte.</span></div></li>
       </ol>
-      <div class="nav"><span></span><button class="btn" data-go="1">Empezar</button></div>
+      <div class="nav"><p class="precio"><b>$25</b> + envío</p><button class="btn" data-go="1">Empezar</button></div>
     </div>
 
     <!-- 1 · Para quién -->
@@ -73,10 +73,10 @@
       <h2 data-t="lee">¿Qué tanto lee?</h2>
       <p class="help">Así sabemos si va un libro corto y ligero o uno para perderse días.</p>
       <div class="opts" data-single="lee">
-        <button class="opt" data-v="avido"><b data-t="lee1">Le encanta leer</b><span>Siempre trae un libro en la bolsa.</span></button>
-        <button class="opt" data-v="ocasional"><b data-t="lee2">Lee de vez en cuando</b><span>Cuando una historia la atrapa.</span></button>
-        <button class="opt" data-v="casinolee"><b data-t="lee3">Casi no lee, pero le gustaría</b><span>Algo que enganche desde la página uno.</span></button>
-        <button class="opt" data-v="retomando"><b data-t="lee4">Está retomando el hábito</b><span>Quiere volver a leer con ganas.</span></button>
+        <button class="opt" data-v="avido"><b data-t="lee1">Le encanta leer</b></button>
+        <button class="opt" data-v="ocasional"><b data-t="lee2">Lee de vez en cuando</b></button>
+        <button class="opt" data-v="casinolee"><b data-t="lee3">Casi no lee, pero le gustaría</b></button>
+        <button class="opt" data-v="retomando"><b data-t="lee4">Está retomando el hábito</b></button>
       </div>
       <label class="f" data-t="idiomaLbl">¿En qué idioma prefiere leer?</label>
       <div class="chips" data-single="idioma">
@@ -89,7 +89,7 @@
 
     <!-- 4 · Géneros -->
     <div class="step" data-step="4">
-      <h2 data-t="gen">¿Qué géneros le encantan?</h2>
+      <h2 data-t="gen">¿Qué géneros le gustaría recibir?</h2>
       <p class="help">Elige todos los que quieras.</p>
       <div class="chips" data-multi="gustos" id="gustos"></div>
       <div class="nav"><button class="ghost" data-back>Atrás</button><button class="btn" data-next>Siguiente</button></div>
@@ -105,18 +105,7 @@
       <div class="nav"><button class="ghost" data-back>Atrás</button><button class="btn" data-next>Siguiente</button></div>
     </div>
 
-    <!-- 6 · Ocasión -->
     <div class="step" data-step="6">
-      <h2>¿Cuál es la ocasión?</h2>
-      <p class="help">No hace falta un motivo, pero si lo hay, nos ayuda.</p>
-      <div class="chips" data-single="ocasion" id="ocasion"></div>
-      <label class="f" for="ocasionOtro">¿Otra ocasión?</label>
-      <input type="text" id="ocasionOtro" placeholder="Escríbela aquí">
-      <div class="nav"><button class="ghost" data-back>Atrás</button><button class="btn" data-next>Siguiente</button></div>
-    </div>
-
-    <!-- 7 · Algo más -->
-    <div class="step" data-step="7">
       <h2>Algo más que quieras contarnos</h2>
       <p class="help" data-t="notasHelp">Si está pasando por un momento especial, algo que le esté pasando, o cualquier detalle suelto que ayude.</p>
       <label class="f" for="notas">Cuéntanos</label>
@@ -124,15 +113,12 @@
       <div class="nav"><button class="ghost" data-back>Atrás</button><button class="btn" data-next>Siguiente</button></div>
     </div>
 
-    <!-- 8 · Fase 2: Preparamos tu cita -->
-    <div class="step" data-step="8">
+    <!-- 7 · Fase 2: Preparamos tu cita -->
+    <div class="step" data-step="7">
       <h2>¿Para cuándo la necesitas?</h2>
-      <p class="help">Así organizamos la curaduría y el empaque a tiempo.</p>
-      <div class="chips" data-single="cuando">
-        <button class="chip" data-v="pronto" aria-pressed="false">Lo antes posible</button>
-        <button class="chip" data-v="fecha" aria-pressed="false">Tengo una fecha</button>
-      </div>
-      <div id="wrapFecha" hidden><label class="f" for="fecha">Fecha</label><input type="date" id="fecha"></div>
+      <p class="help">Recuerda que trabajamos con un mínimo de 48 h.</p>
+      <button class="chip fecha-btn" type="button" id="btnFecha" aria-pressed="false"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg><span id="fechaTxt">Seleccionar fecha</span></button>
+      <input type="date" id="fecha" class="fecha-input" aria-label="Fecha en que la necesitas" tabindex="-1">
       <h3 class="sub-h" data-t="colorH">¿Cuál es su color favorito?</h3>
       <p class="help">Lo usamos para elegir los detalles que van con el libro.</p>
       <div class="swatches" data-single="color" id="colores"></div>
@@ -144,18 +130,17 @@
         <label class="f" for="dedicatoria">¿Qué quieres que diga la notita?</label>
         <textarea id="dedicatoria" maxlength="300" placeholder="Ej: Para mi bestie, que nunca deja de sorprenderme. Feliz cumple. Con amor, Kelly"></textarea>
       </div>
-      <p class="help" id="notaMi" hidden>Tu cita llega envuelta a mano y sellada con cera, como un regalo de ti para ti.</p>
       <div class="nav"><button class="ghost" data-back>Atrás</button><button class="btn" data-next>Siguiente</button></div>
     </div>
 
-    <!-- 9 · Fase 3: Entrega -->
-    <div class="step" data-step="9">
-      <h2>¿Cómo te la hacemos llegar?</h2>
+    <!-- 8 · Fase 3: Entrega -->
+    <div class="step" data-step="8">
+      <h2>Detalles de la entrega</h2>
       <p class="help">El costo del envío te lo confirmamos por WhatsApp.</p>
       <div class="opts one" data-single="entrega">
-        <button class="opt" data-v="punto"><b>Punto de entrega en Sonsonate</b><span>Metrocentro o CC El Encuentro.</span></button>
-        <button class="opt" data-v="domicilio"><b>A domicilio en Sonsonate</b><span>Con mensajería local, hasta tu puerta.</span></button>
-        <button class="opt" data-v="envio"><b>Envío al resto del país</b><span>Con Boxful.</span></button>
+        <button class="opt" data-v="envio"><b>Envío a todos los departamentos</b><span>3 a 5 días por medio de Boxful.</span></button>
+        <button class="opt" data-v="punto"><b>Punto fijo · 24 h</b><span>Metrocentro Sonsonate o CC El Encuentro.</span></button>
+        <button class="opt" data-v="domicilio"><b>Entrega personalizada · 24 h</b><span>Con mensajería local, hasta tu puerta.</span></button>
       </div>
       <div id="wrapPunto" hidden><label class="f">¿En cuál punto?</label>
         <div class="chips" data-single="punto">
@@ -167,26 +152,23 @@
       <div class="nav"><button class="ghost" data-back>Atrás</button><button class="btn" data-next>Siguiente</button></div>
     </div>
 
-    <!-- 10 · Fase 3: Pago y contacto -->
-    <div class="step" data-step="10">
-      <h2>¿Cómo prefieres pagar?</h2>
-      <p class="help">El precio y los datos de pago te los compartimos por WhatsApp.</p>
-      <div class="opts one" data-single="pago">
-        <button class="opt" data-v="transferencia"><b>Transferencia</b><span>Pagas el total al reservar.</span></button>
-        <button class="opt" data-v="contraentrega"><b>Contra entrega</b><span>Dejas un anticipo del 50% al reservar y el resto al recibir.</span></button>
-      </div>
+    <!-- 9 · Fase 3: Pago y contacto -->
+    <div class="step" data-step="9">
+      <h2>Pago y contacto</h2>
+      <div class="pago-info"><b>Pago solo por transferencia</b><span>Te compartimos los datos de pago por WhatsApp.</span></div>
       <div class="row2">
         <div><label class="f" for="nombre">Tu nombre</label><input type="text" id="nombre" autocomplete="name" maxlength="80"></div>
         <div><label class="f" for="telefono">Tu WhatsApp</label><input type="tel" id="telefono" autocomplete="tel" inputmode="tel" maxlength="20" placeholder="Ej: 7000 0000"></div>
       </div>
+      <p class="fine">Las compras son finales.</p>
       <div class="nav"><button class="ghost" data-back>Atrás</button><button class="btn" data-next id="toEnd">Ver mi ficha</button></div>
     </div>
 
-    <!-- 11 · Final -->
-    <div class="step" data-step="11">
+    <!-- 10 · Final -->
+    <div class="step" data-step="10">
       <div class="desc">Ficha lista</div>
       <h2 class="mt">Tu cita ya se está arreglando.</h2>
-      <p class="help" data-t="fin">Con esto le buscamos algo que sienta que fue elegido para ella, no al azar. Envíanos la ficha por WhatsApp y seguimos por ahí.</p>
+      <p class="help" data-t="fin">Con esta información buscamos algo especialmente para quien la recibe, no al azar. Envíanos la ficha por WhatsApp para completar la compra.</p>
       <div id="sum"></div>
       <div class="nav pt">
         <button class="ghost" data-back>Editar</button>

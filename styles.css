@@ -96,10 +96,20 @@ input[type=date]:focus,input[type=tel]:focus{border-color:var(--terra);backgroun
 .sumg dd{margin:0;font-weight:400;overflow-wrap:anywhere}
 @media(max-width:480px){.sumg dl div{grid-template-columns:minmax(0,1fr);gap:0}.fases{gap:4px}.fases li{font-size:11.5px;padding:7px 6px;text-align:center}}
 #notaMi{margin-top:18px}
-.swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:8px}
-.sw{font:inherit;font-size:14px;font-weight:400;color:var(--ink);background:#fff;border:1.5px solid var(--line);border-radius:999px;padding:7px 12px 7px 7px;min-height:44px;display:flex;align-items:center;gap:9px;cursor:pointer;text-align:left}
-.sw i{flex:none;width:28px;height:28px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(62,55,48,.18)}
+.swatches{display:flex;flex-wrap:wrap;gap:8px}
+.sw{font:inherit;font-size:14px;font-weight:400;color:var(--ink);background:#fff;border:1.5px solid var(--line);border-radius:999px;padding:6px 14px 6px 6px;min-height:42px;display:inline-flex;align-items:center;gap:8px;cursor:pointer;width:auto;white-space:nowrap}
+.sw i{flex:none;width:26px;height:26px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(62,55,48,.18)}
 .sw:hover{border-color:var(--terra)}
 .sw[aria-pressed=true]{border-color:var(--ink);background:var(--cream);box-shadow:0 0 0 1px var(--ink)}
 .sw.sorpresa i{background:conic-gradient(#F48FB1,#CE93D8,#90CAF9,#A5D6A7,#FFE082,#FFAB91,#F48FB1)}
 @media(max-width:480px){.top img{width:118px}.handle{font-size:11px;letter-spacing:.14em}}
+.fecha-btn{display:inline-flex;align-items:center;gap:8px;align-self:flex-start}
+.fecha-btn[aria-pressed=true]{background:var(--peach);border-color:var(--peach)}
+.fecha-input{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none;border:0;padding:0}
+.step{position:relative}
+.pago-info{background:var(--cream);border-radius:14px;padding:16px 18px;display:grid;gap:2px}
+.pago-info b{font-family:"Cormorant Garamond",serif;font-weight:600;font-size:21px;line-height:1.2}
+.pago-info span{font-size:13.5px;color:var(--ink2)}
+.fine{font-size:12.5px;color:var(--ink2);margin:16px 0 0}
+.precio{margin:0;font-size:14px;color:var(--ink2)}
+.precio b{font-family:"Cormorant Garamond",serif;font-weight:600;font-size:30px;color:var(--ink);margin-right:2px}
