@@ -71,14 +71,14 @@
     <!-- 3 · Qué tanto lee -->
     <div class="step" data-step="3">
       <h2 data-t="lee">¿Qué tanto lee?</h2>
-      <p class="help">Así sabemos si va un libro corto y ligero o uno para perderse días.</p>
+      <p class="help">Así sabemos si va un libro ligero o uno para perderse días.</p>
       <div class="opts" data-single="lee">
         <button class="opt" data-v="avido"><b data-t="lee1">Le encanta leer</b></button>
         <button class="opt" data-v="ocasional"><b data-t="lee2">Lee de vez en cuando</b></button>
         <button class="opt" data-v="casinolee"><b data-t="lee3">Casi no lee, pero le gustaría</b></button>
         <button class="opt" data-v="retomando"><b data-t="lee4">Está retomando el hábito</b></button>
       </div>
-      <label class="f" data-t="idiomaLbl">¿En qué idioma prefiere leer?</label>
+      <label class="f">¿En qué idioma lo elegimos?</label>
       <div class="chips" data-single="idioma">
         <button class="chip" data-v="es" aria-pressed="false">Español</button>
         <button class="chip" data-v="en" aria-pressed="false">Inglés</button>
@@ -90,7 +90,7 @@
     <!-- 4 · Géneros -->
     <div class="step" data-step="4">
       <h2 data-t="gen">¿Qué géneros le gustaría recibir?</h2>
-      <p class="help">Elige todos los que quieras.</p>
+      <p class="help">Elige todos los que quieras, seleccionaremos uno.</p>
       <div class="chips" data-multi="gustos" id="gustos"></div>
       <div class="nav"><button class="ghost" data-back>Atrás</button><button class="btn" data-next>Siguiente</button></div>
     </div>
@@ -122,37 +122,37 @@
       <h3 class="sub-h" data-t="colorH">¿Cuál es su color favorito?</h3>
       <p class="help">Lo usamos para elegir los detalles que van con el libro.</p>
       <div class="swatches" data-single="color" id="colores"></div>
-      <div id="wrapNotita">
-        <h3 class="sub-h">La notita</h3>
-        <p class="help">Cada cita va envuelta a mano y sellada con cera. Si quieres, la acompañamos con una notita escrita a mano.</p>
-        <label class="f" for="nombrePara">¿Cómo se llama quien la recibe?</label>
-        <input type="text" id="nombrePara" maxlength="80" placeholder="Opcional">
-        <label class="f" for="dedicatoria">¿Qué quieres que diga la notita?</label>
-        <textarea id="dedicatoria" maxlength="300" placeholder="Ej: Para mi bestie, que nunca deja de sorprenderme. Feliz cumple. Con amor, Kelly"></textarea>
-      </div>
       <div class="nav"><button class="ghost" data-back>Atrás</button><button class="btn" data-next>Siguiente</button></div>
     </div>
 
-    <!-- 8 · Fase 3: Entrega -->
     <div class="step" data-step="8">
       <h2>Detalles de la entrega</h2>
-      <p class="help">El costo del envío te lo confirmamos por WhatsApp.</p>
+      <p class="help" data-t="entregaHelp">Selecciona cómo quieres enviar tu cita.</p>
+      <p class="grupo">Sonsonate</p>
       <div class="opts one" data-single="entrega">
-        <button class="opt" data-v="envio"><b>Envío a todos los departamentos</b><span>3 a 5 días por medio de Boxful.</span></button>
-        <button class="opt" data-v="punto"><b>Punto fijo · 24 h</b><span>Metrocentro Sonsonate o CC El Encuentro.</span></button>
-        <button class="opt" data-v="domicilio"><b>Entrega personalizada · 24 h</b><span>Con mensajería local, hasta tu puerta.</span></button>
+        <button class="opt" data-v="punto"><b>Punto fijo · 24 h</b><span>Metrocentro Sonsonate o CC El Encuentro Sonsonate.</span></button>
+        <button class="opt" data-v="domicilio"><b>Entrega personalizada · 24 h</b><span>Entrega a domicilio con mensajería local.</span></button>
+      </div>
+      <div class="opts one sep" data-single="entrega">
+        <button class="opt" data-v="envio"><b>Envío a otro departamento</b><span>Enviamos a todo el país. Entrega a domicilio por medio de Boxful.</span></button>
       </div>
       <div id="wrapPunto" hidden><label class="f">¿En cuál punto?</label>
         <div class="chips" data-single="punto">
-          <button class="chip" data-v="Metrocentro Sonsonate" aria-pressed="false">Metrocentro</button>
-          <button class="chip" data-v="CC El Encuentro" aria-pressed="false">CC El Encuentro</button>
+          <button class="chip" data-v="Metrocentro Sonsonate" aria-pressed="false">Metrocentro Sonsonate</button>
+          <button class="chip" data-v="CC El Encuentro Sonsonate" aria-pressed="false">CC El Encuentro Sonsonate</button>
         </div></div>
-      <div id="wrapDir" hidden><label class="f" for="direccion">Dirección o municipio</label>
-        <input type="text" id="direccion" maxlength="300" placeholder="Ej: Col. Las Palmeras, Sonsonate"></div>
+      <div id="wrapDir" hidden><label class="f" for="direccion">Dirección completa</label>
+        <input type="text" id="direccion" maxlength="300" placeholder="Colonia, calle, número de casa, municipio y departamento"></div>
+      <div id="wrapRecibe">
+        <div class="row2">
+          <div><label class="f" for="nombrePara">¿Quién recibe?</label><input type="text" id="nombrePara" maxlength="80" placeholder="Nombre de quien recibe"></div>
+          <div><label class="f" for="telRecibe">Teléfono de quien recibe</label><input type="tel" id="telRecibe" inputmode="tel" maxlength="20" placeholder="Ej: 7000 0000"></div>
+        </div>
+        <p class="fine">La fecha y la hora de entrega se coordinan con quien realiza la compra, para procurar que el destinatario pueda recibir su sorpresa.</p>
+      </div>
       <div class="nav"><button class="ghost" data-back>Atrás</button><button class="btn" data-next>Siguiente</button></div>
     </div>
 
-    <!-- 9 · Fase 3: Pago y contacto -->
     <div class="step" data-step="9">
       <h2>Pago y contacto</h2>
       <div class="pago-info"><b>Pago solo por transferencia</b><span>Te compartimos los datos de pago por WhatsApp.</span></div>
@@ -160,7 +160,8 @@
         <div><label class="f" for="nombre">Tu nombre</label><input type="text" id="nombre" autocomplete="name" maxlength="80"></div>
         <div><label class="f" for="telefono">Tu WhatsApp</label><input type="tel" id="telefono" autocomplete="tel" inputmode="tel" maxlength="20" placeholder="Ej: 7000 0000"></div>
       </div>
-      <p class="fine">Las compras son finales.</p>
+      <p class="fine">El costo del envío te lo confirmamos por WhatsApp previo a realizar el pago.</p>
+      <p class="fine fine-2">Las compras son finales.</p>
       <div class="nav"><button class="ghost" data-back>Atrás</button><button class="btn" data-next id="toEnd">Ver mi ficha</button></div>
     </div>
 

@@ -15,12 +15,13 @@ const T={ /* [regalo, para mí] */
  notasHelp:['Si está pasando por un momento especial, algo que le esté pasando, o cualquier detalle suelto que ayude.','Si estás pasando por un momento especial, algo que te esté pasando, o cualquier detalle suelto que ayude.'],
  idiomaLbl:['¿En qué idioma prefiere leer?','¿En qué idioma prefieres leer?'],
  colorH:['¿Cuál es su color favorito?','¿Cuál es tu color favorito?'],
+ entregaHelp:['Selecciona cómo quieres enviar tu cita.','Selecciona cómo quieres recibir tu cita.'],
  fin:['Con esta información buscamos algo especialmente para quien la recibe, no al azar. Envíanos la ficha por WhatsApp para completar la compra.','Con esta información buscamos algo especialmente para ti, no al azar. Envíanos la ficha por WhatsApp para completar la compra.']
 };
 const S={para:'',lee:'',idioma:'',color:'',entrega:'',punto:'',pago:'transferencia',gustos:new Set(),evitar:new Set()};
 const IDIOMA={es:'Español',en:'Inglés',cualquiera:'Cualquiera de los dos'};
-const COLORES=[['Rosa','#F4A6C0'],['Rojo','#D64545'],['Morado','#9C6ADE'],['Lila','#CDB4F0'],['Azul','#5B8DEF'],['Celeste','#A8D8F0'],['Verde','#6FBF73'],['Verde menta','#B8E6CF'],['Amarillo','#F7D154'],['Naranja','#F59A5A'],['Durazno','#F4BEAE'],['Beige','#E6D5BF'],['Café','#8B5E3C'],['Negro','#2B2B2B']];
-const ENTREGA={envio:'Envío a todos los departamentos (Boxful, 3 a 5 días)',punto:'Punto fijo (24 h)',domicilio:'Entrega personalizada (24 h)'};
+const COLORES=[['Rosa','#F4A6C0'],['Rojo','#D64545'],['Morado','#9C6ADE'],['Lila','#CDB4F0'],['Azul','#5B8DEF'],['Celeste','#A8D8F0'],['Verde','#6FBF73'],['Verde menta','#B8E6CF'],['Amarillo','#F7D154'],['Naranja','#F59A5A'],['Durazno','#F4BEAE'],['Beige','#E6D5BF'],['Café','#8B5E3C'],['Negro','#2B2B2B'],['Sorpresa','']];
+const ENTREGA={punto:'Sonsonate · Punto fijo (24 h)',domicilio:'Sonsonate · Entrega personalizada (24 h)',envio:'Envío a otro departamento (Boxful)'};
 const PAGO={transferencia:'Transferencia'};
 const FOTOS=[['producto.jpg','Una cita de Trendy Book: libro envuelto a mano en papel floral, sellado con cera, con separador, pin y detalles'],['foto-rosa.jpg','Cita de Trendy Book en papel de flores silvestres, con sello de cera rosa, borla y detalles'],['foto-amarilla.jpg','Cita de Trendy Book en papel de flores amarillas, con sello de cera dorado, borla y book review']];
 FOTOS.slice(1).forEach(([f])=>{const i=new Image();i.src=f});
@@ -51,7 +52,7 @@ const show=n=>{
 const applyT=()=>{const i=S.para==='mi'?1:0;
   $$('[data-t]').forEach(el=>{const k=el.dataset.t;if(T[k])el.textContent=T[k][i]});
   ['avido','ocasional','casinolee','retomando'].forEach((k,j)=>{const b=document.querySelector(`[data-t="lee${j+1}"]`);if(b)b.textContent=LEE[k][i]});
-  $('#wrapNotita').hidden=S.para==='mi';
+  $('#wrapRecibe').hidden=S.para==='mi';
 };
 
 document.addEventListener('click',e=>{
@@ -62,7 +63,7 @@ document.addEventListener('click',e=>{
   const single=b.parentElement.dataset.single, multi=b.parentElement.dataset.multi, v=b.dataset.v;
   if(single){
     S[single]=S[single]===v&&single!=='para'?'':v;
-    [...b.parentElement.children].forEach(c=>c.setAttribute('aria-pressed',c.dataset.v===S[single]));
+    $$(`[data-single="${single}"] > [data-v]`).forEach(c=>c.setAttribute('aria-pressed',c.dataset.v===S[single]));
     if(single==='para'){$('#nextPara').disabled=false;applyT();}
     if(single==='entrega'){$('#wrapPunto').hidden=S.entrega!=='punto';$('#wrapDir').hidden=!['domicilio','envio'].includes(S.entrega);}
   }else if(multi){
@@ -99,12 +100,13 @@ const ficha=()=>{
     ['2 · La cita',limpia([
       ['Para cuándo',fechaTxt()],
       ['Color favorito',S.color],
-      ['Se llama',mi?'':v('nombrePara')],
-      ['Notita',mi?'':v('dedicatoria')]])],
+  ])],
     ['3 · Entrega',limpia([
       ['Entrega',ENTREGA[S.entrega]||''],
       ['Punto',S.entrega==='punto'?S.punto:''],
-      ['Dirección',['domicilio','envio'].includes(S.entrega)?v('direccion'):''],
+      ['Dirección completa',['domicilio','envio'].includes(S.entrega)?v('direccion'):''],
+      ['Quién recibe',mi?'':v('nombrePara')],
+      ['Tel. de quien recibe',mi?'':v('telRecibe')],
       ['Pago',PAGO[S.pago]||''],
       ['De',v('nombre')],
       ['WhatsApp',v('telefono')],
@@ -119,7 +121,7 @@ const registro=()=>{const v=id=>$('#'+id).value.trim()||null;return{
   edad:v('edad'), lee:S.lee||null, gustos:[...S.gustos], evitar:[...S.evitar].filter(x=>x!=='nada'),
   evitar_otro:v('evitarOtro'), ocasion:null, notas:v('notas'),
   fecha_deseada:v('fecha'), lo_antes_posible:false,
-  dedicatoria:S.para==='mi'?null:v('dedicatoria'),
+  dedicatoria:null, telefono_recibe:S.para==='mi'?null:v('telRecibe'),
   entrega:S.entrega||null, punto:S.entrega==='punto'?(S.punto||null):null,
   direccion:['domicilio','envio'].includes(S.entrega)?v('direccion'):null,
   pago:S.pago||null, telefono:v('telefono'), idioma:S.idioma||null, color:S.color||null}};

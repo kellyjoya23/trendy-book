@@ -107,9 +107,10 @@ const confirmarSalida = () => confirm('Hay cambios sin guardar. ¿Salir sin guar
 const marcarSucio = () => { sucio = true; $('#saveMsg').textContent = 'Cambios sin guardar'; $('#saveMsg').className = 'msg'; };
 
 const CAMPOS = { dNombre:'nombre', dNombrePara:'nombre_para', dEdad:'edad', dLee:'lee', dEvitarOtro:'evitar_otro', dOcasion:'ocasion', dNotas:'notas', dEstado:'estado', dLibro:'libro', dNotasInt:'notas_internas',
-  dFecha2:'fecha_deseada', dEntrega:'entrega', dPunto:'punto', dDireccion:'direccion', dPago:'pago', dTelefono:'telefono', dDedicatoria:'dedicatoria', dIdioma:'idioma', dColor:'color' };
+  dFecha2:'fecha_deseada', dEntrega:'entrega', dPunto:'punto', dDireccion:'direccion', dPago:'pago', dTelefono:'telefono', dDedicatoria:'dedicatoria', dIdioma:'idioma', dColor:'color', dTelRecibe:'telefono_recibe' };
 const waLink = t => { let d = String(t || '').replace(/\D/g, ''); if (d.length === 8) d = '503' + d; return d.length >= 8 ? 'https://wa.me/' + d : ''; };
-const syncWa = () => { const u = waLink($('#dTelefono').value); $('#dWa').hidden = !u; if (u) $('#dWa').href = u; };
+const syncWa = () => { const u = waLink($('#dTelefono').value); $('#dWa').hidden = !u; if (u) $('#dWa').href = u;
+  const r = waLink($('#dTelRecibe').value); $('#dWaRecibe').hidden = !r; if (r) $('#dWaRecibe').href = r; $('#dNombreRecibe').value = $('#dNombrePara').value; };
 const fechaCorta = f => f.lo_antes_posible ? 'Lo antes posible' : f.fecha_deseada ? 'Para el ' + new Date(f.fecha_deseada + 'T12:00:00').toLocaleDateString('es-SV', { day: 'numeric', month: 'short' }) : '';
 
 const abrir = (f, enfocar = true) => {
@@ -140,7 +141,7 @@ document.addEventListener('click', e => {
     if (g.dataset.multi === 'gustos') { if (v === 'sorpresa' && set.has(v)) { set.clear(); set.add(v); } else if (v !== 'sorpresa') set.delete('sorpresa'); } }
   syncChips(); marcarSucio(); sugerir();
 });
-$('#detalle').addEventListener('input', e => { if (e.target.closest('#pegado')) return; if (e.target.id === 'dTelefono') syncWa(); if (e.target.matches('input,textarea,select')) { marcarSucio(); if (!['dLibro','dNotasInt','dEstado'].includes(e.target.id)) sugerir(); } });
+$('#detalle').addEventListener('input', e => { if (e.target.closest('#pegado')) return; if (['dTelefono','dTelRecibe','dNombrePara'].includes(e.target.id)) syncWa(); if (e.target.matches('input,textarea,select')) { marcarSucio(); if (!['dLibro','dNotasInt','dEstado'].includes(e.target.id)) sugerir(); } });
 $('#detalle').addEventListener('change', e => { if (e.target.id === 'dEstado') marcarSucio(); });
 
 const leerForm = () => {
@@ -184,9 +185,12 @@ $('#btnImp').addEventListener('click', () => {
   if (d['color favorito']) $('#dColor').value = d['color favorito'];
   if (d['idioma']) { const n = norm(d['idioma']); $('#dIdioma').value = n.includes('cualquiera') ? 'cualquiera' : n.includes('ingles') ? 'en' : n.includes('espanol') ? 'es' : ''; }
   if (d['whatsapp']) { $('#dTelefono').value = d['whatsapp']; syncWa(); }
+  if (d['quien recibe']) $('#dNombrePara').value = d['quien recibe'];
+  if (d['tel. de quien recibe']) $('#dTelRecibe').value = d['tel. de quien recibe'];
+  if (d['direccion completa']) $('#dDireccion').value = d['direccion completa'];
   if (d['direccion']) $('#dDireccion').value = d['direccion'];
   if (d['punto']) $('#dPunto').value = d['punto'];
-  if (d['entrega']) { const n = norm(d['entrega']); $('#dEntrega').value = n.includes('punto') ? 'punto' : n.includes('domicilio') ? 'domicilio' : n.includes('envio') ? 'envio' : ''; }
+  if (d['entrega']) { const n = norm(d['entrega']); $('#dEntrega').value = n.includes('punto') ? 'punto' : n.includes('personalizada') || n.includes('domicilio') ? 'domicilio' : n.includes('envio') ? 'envio' : ''; }
   if (d['pago']) { const n = norm(d['pago']); $('#dPago').value = n.includes('transferencia') ? 'transferencia' : n.includes('contra') ? 'contraentrega' : ''; }
   if (d['para cuando']) { if (norm(d['para cuando']).includes('antes')) $('#dPronto').checked = true; else $('#dNotas').value = [$('#dNotas').value, 'Para cuándo: ' + d['para cuando']].filter(Boolean).join('\n'); }
   if (d['codigo'] && /^TB-[A-Z0-9]{5}$/.test(d['codigo'])) { actual.codigo = d['codigo']; $('#dCodigo').textContent = d['codigo']; }

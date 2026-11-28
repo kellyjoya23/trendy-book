@@ -37,6 +37,7 @@ create table if not exists public.fichas (
   direccion       text check (char_length(direccion) <= 300),
   pago            text check (pago in ('transferencia', 'contraentrega')),
   telefono        text check (char_length(telefono) <= 20),
+  telefono_recibe text check (char_length(telefono_recibe) <= 20),   -- de quien recibe, si es regalo
 
   -- Lo que llena el equipo (CRM interno)
   estado          text not null default 'nueva'
@@ -56,7 +57,8 @@ alter table public.fichas
   add column if not exists pago             text check (pago in ('transferencia', 'contraentrega')),
   add column if not exists telefono         text check (char_length(telefono) <= 20),
   add column if not exists idioma           text check (idioma in ('es', 'en', 'cualquiera')),
-  add column if not exists color            text check (char_length(color) <= 40);
+  add column if not exists color            text check (char_length(color) <= 40),
+  add column if not exists telefono_recibe  text check (char_length(telefono_recibe) <= 20);
 
 create index if not exists fichas_creada_idx on public.fichas (creada desc);
 create index if not exists fichas_estado_idx on public.fichas (estado);

@@ -113,3 +113,6 @@ input[type=date]:focus,input[type=tel]:focus{border-color:var(--terra);backgroun
 .fine{font-size:12.5px;color:var(--ink2);margin:16px 0 0}
 .precio{margin:0;font-size:14px;color:var(--ink2)}
 .precio b{font-family:"Cormorant Garamond",serif;font-weight:600;font-size:30px;color:var(--ink);margin-right:2px}
+.grupo{margin:4px 0 8px;font-size:12.5px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--ink2)}
+.opts.sep{margin-top:18px}
+.fine-2{margin-top:6px}
