@@ -114,5 +114,9 @@ input[type=date]:focus,input[type=tel]:focus{border-color:var(--terra);backgroun
 .precio{margin:0;font-size:14px;color:var(--ink2)}
 .precio b{font-family:"Cormorant Garamond",serif;font-weight:600;font-size:30px;color:var(--ink);margin-right:2px}
 .grupo{margin:4px 0 8px;font-size:12.5px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--ink2)}
-.opts.sep{margin-top:18px}
 .fine-2{margin-top:6px}
+.pais{display:flex;align-items:center;gap:10px;margin:0 0 20px;font-size:14.5px;color:var(--ink)}
+.pais .flag{flex:none;box-shadow:0 0 0 1px rgba(62,55,48,.12);border-radius:2px}
+.grupo{display:flex;align-items:center;flex-wrap:wrap;gap:8px}
+.grupo.sep{margin-top:22px}
+.tag-t{font-size:12px;font-weight:500;letter-spacing:.02em;text-transform:none;color:var(--ink);background:var(--peach2);border-radius:999px;padding:3px 10px}

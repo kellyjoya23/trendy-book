@@ -15,13 +15,13 @@ const T={ /* [regalo, para mí] */
  notasHelp:['Si está pasando por un momento especial, algo que le esté pasando, o cualquier detalle suelto que ayude.','Si estás pasando por un momento especial, algo que te esté pasando, o cualquier detalle suelto que ayude.'],
  idiomaLbl:['¿En qué idioma prefiere leer?','¿En qué idioma prefieres leer?'],
  colorH:['¿Cuál es su color favorito?','¿Cuál es tu color favorito?'],
- entregaHelp:['Selecciona cómo quieres enviar tu cita.','Selecciona cómo quieres recibir tu cita.'],
+ entregaHelp:['Selecciona cómo quieres enviar tu pedido.','Selecciona cómo quieres recibir tu pedido.'],
  fin:['Con esta información buscamos algo especialmente para quien la recibe, no al azar. Envíanos la ficha por WhatsApp para completar la compra.','Con esta información buscamos algo especialmente para ti, no al azar. Envíanos la ficha por WhatsApp para completar la compra.']
 };
 const S={para:'',lee:'',idioma:'',color:'',entrega:'',punto:'',pago:'transferencia',gustos:new Set(),evitar:new Set()};
 const IDIOMA={es:'Español',en:'Inglés',cualquiera:'Cualquiera de los dos'};
 const COLORES=[['Rosa','#F4A6C0'],['Rojo','#D64545'],['Morado','#9C6ADE'],['Lila','#CDB4F0'],['Azul','#5B8DEF'],['Celeste','#A8D8F0'],['Verde','#6FBF73'],['Verde menta','#B8E6CF'],['Amarillo','#F7D154'],['Naranja','#F59A5A'],['Durazno','#F4BEAE'],['Beige','#E6D5BF'],['Café','#8B5E3C'],['Negro','#2B2B2B'],['Sorpresa','']];
-const ENTREGA={punto:'Sonsonate · Punto fijo (24 h)',domicilio:'Sonsonate · Entrega personalizada (24 h)',envio:'Envío a otro departamento (Boxful)'};
+const ENTREGA={punto:'Sonsonate · Punto fijo (24 h)',domicilio:'Sonsonate · A domicilio (24 h)',envio:'Envío nacional (Boxful, 3 a 5 días hábiles)'};
 const PAGO={transferencia:'Transferencia'};
 const FOTOS=[['producto.jpg','Una cita de Trendy Book: libro envuelto a mano en papel floral, sellado con cera, con separador, pin y detalles'],['foto-rosa.jpg','Cita de Trendy Book en papel de flores silvestres, con sello de cera rosa, borla y detalles'],['foto-amarilla.jpg','Cita de Trendy Book en papel de flores amarillas, con sello de cera dorado, borla y book review']];
 FOTOS.slice(1).forEach(([f])=>{const i=new Image();i.src=f});

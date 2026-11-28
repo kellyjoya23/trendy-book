@@ -127,14 +127,16 @@
 
     <div class="step" data-step="8">
       <h2>Detalles de la entrega</h2>
-      <p class="help" data-t="entregaHelp">Selecciona cómo quieres enviar tu cita.</p>
-      <p class="grupo">Sonsonate</p>
+      <p class="help" data-t="entregaHelp">Selecciona cómo quieres enviar tu pedido.</p>
+      <p class="pais"><svg class="flag" width="20" height="14" viewBox="0 0 20 14" aria-hidden="true"><rect width="20" height="14" rx="2" fill="#0F47AF"/><rect y="4.67" width="20" height="4.67" fill="#fff"/><circle cx="10" cy="7" r="1.5" fill="none" stroke="#C9A227" stroke-width=".7"/></svg><span>Enviamos a los 14 departamentos de El Salvador.</span></p>
+      <p class="grupo">Sonsonate <span class="tag-t">Entrega en 24 h</span></p>
       <div class="opts one" data-single="entrega">
-        <button class="opt" data-v="punto"><b>Punto fijo · 24 h</b><span>Metrocentro Sonsonate o CC El Encuentro Sonsonate.</span></button>
-        <button class="opt" data-v="domicilio"><b>Entrega personalizada · 24 h</b><span>Entrega a domicilio con mensajería local.</span></button>
+        <button class="opt" data-v="punto"><b>Punto fijo</b><span>Recoge en Metrocentro Sonsonate o CC El Encuentro Sonsonate.</span></button>
+        <button class="opt" data-v="domicilio"><b>A domicilio</b><span>Lo llevamos hasta la puerta con mensajería local.</span></button>
       </div>
-      <div class="opts one sep" data-single="entrega">
-        <button class="opt" data-v="envio"><b>Envío a otro departamento</b><span>Enviamos a todo el país. Entrega a domicilio por medio de Boxful.</span></button>
+      <p class="grupo sep">Resto del país <span class="tag-t">3 a 5 días hábiles</span></p>
+      <div class="opts one" data-single="entrega">
+        <button class="opt" data-v="envio"><b>Envío nacional</b><span>Entrega a domicilio en cualquier departamento por medio de Boxful.</span></button>
       </div>
       <div id="wrapPunto" hidden><label class="f">¿En cuál punto?</label>
         <div class="chips" data-single="punto">
@@ -142,7 +144,7 @@
           <button class="chip" data-v="CC El Encuentro Sonsonate" aria-pressed="false">CC El Encuentro Sonsonate</button>
         </div></div>
       <div id="wrapDir" hidden><label class="f" for="direccion">Dirección completa</label>
-        <input type="text" id="direccion" maxlength="300" placeholder="Colonia, calle, número de casa, municipio y departamento"></div>
+        <input type="text" id="direccion" maxlength="300" placeholder="Colonia, calle, casa, municipio y depto."></div>
       <div id="wrapRecibe">
         <div class="row2">
           <div><label class="f" for="nombrePara">¿Quién recibe?</label><input type="text" id="nombrePara" maxlength="80" placeholder="Nombre de quien recibe"></div>
